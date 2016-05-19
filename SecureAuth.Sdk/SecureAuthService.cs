@@ -74,7 +74,7 @@ namespace SecureAuth.Sdk
 
         /// <summary>
         /// Gets the Device Fingerprint Service instance for the current
-        /// SecureAuth Service instance. User for making calls to the 
+        /// SecureAuth Service instance. Use for making calls to the 
         /// /api/v1/dfp endpoint.
         /// </summary>
         public DeviceFingerprintService DeviceFingerprint
@@ -87,7 +87,7 @@ namespace SecureAuth.Sdk
 
         /// <summary>
         /// Gets the Access History Service instance for the current
-        /// SecureAuth Service instance. User for making calls to the 
+        /// SecureAuth Service instance. Use for making calls to the 
         /// /api/v1/accesshistory endpoint.
         /// </summary>
         public AccessHistoryService AccessHistory
@@ -100,7 +100,7 @@ namespace SecureAuth.Sdk
 
         /// <summary>
         /// Gets the Adaptive Auth Service instance for the current
-        /// SecureAuth Service instance. User for making calls to the 
+        /// SecureAuth Service instance. Use for making calls to the 
         /// /api/v1/adaptauth endpoint.
         /// </summary>
         public AdaptiveAuthService AdaptiveAuth
@@ -108,6 +108,19 @@ namespace SecureAuth.Sdk
             get
             {
                 return new AdaptiveAuthService(new ApiClient(this.Configuration));
+            }
+        }
+
+        /// <summary>
+        /// Gets the Group Service instance for the current
+        /// SecureAuth Service instance. Use for making calls
+        /// to the /api/v1/groupservice endpoint.
+        /// </summary>
+        public GroupService GroupService
+        {
+            get
+            {
+                return new GroupService(new ApiClient(this.Configuration));
             }
         }
         #endregion
