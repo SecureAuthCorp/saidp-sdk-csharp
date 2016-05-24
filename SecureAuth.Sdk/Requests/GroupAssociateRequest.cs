@@ -11,5 +11,11 @@ namespace SecureAuth.Sdk
 
         [DataMember(Name = "userIds", EmitDefaultValue = false)]
         public List<string> UserIds { get; set; }
+
+        public GroupAssociateRequest()
+        {
+            GroupNames = new List<string>();
+            UserIds = new List<string>();
+        }
     }
 }

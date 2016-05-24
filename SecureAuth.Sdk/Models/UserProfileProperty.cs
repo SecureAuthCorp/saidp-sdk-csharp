@@ -10,7 +10,7 @@ namespace SecureAuth.Sdk
 
         [DataMember(Name = "isWritable")]
         public bool IsWritable { get; set; }
-
+        
         [DataMember(Name = "displayName", EmitDefaultValue = false)]
         public string DisplayName { get; set; }
     }

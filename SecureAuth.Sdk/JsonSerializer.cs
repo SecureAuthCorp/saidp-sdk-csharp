@@ -21,7 +21,10 @@ namespace SecureAuth.Sdk
 
         internal static T Deserialize<T>(string jsonString)
         {
-            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(T));
+            DataContractJsonSerializerSettings settings = new DataContractJsonSerializerSettings();
+            settings.UseSimpleDictionaryFormat = true;
+
+            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(T), settings);
             MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonString));
             T obj = (T)ser.ReadObject(ms);
             return obj;
