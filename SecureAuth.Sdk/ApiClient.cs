@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SecureAuth.Sdk
 {
@@ -57,7 +56,7 @@ namespace SecureAuth.Sdk
                 var response = client.GetAsync(requestUrl).Result;
                 statusCode = response.StatusCode;
 
-                rawResult = Task.Run(() => response.Content.ReadAsStringAsync()).Result;
+                rawResult = response.Content.ReadAsStringAsync().Result;
             }
 
             // Deserialize the response
@@ -69,7 +68,7 @@ namespace SecureAuth.Sdk
             return result;
         }
 
-        internal T Post<T>(string apiEndpoint, BaseRequest request) 
+        internal T Post<T>(string apiEndpoint, BaseRequest request = null) 
             where T : BaseResponse
         {
             string rawResult = string.Empty;
@@ -80,12 +79,15 @@ namespace SecureAuth.Sdk
             // Process HTTP request
             using (HttpClient client = new HttpClient(new HmacSigningHandler(this.AppId, this.AppKey)))
             {
-                rawRequest = JsonSerializer.Serialize(request);
+                if (request != null)
+                {
+                    rawRequest = JsonSerializer.Serialize(request);
+                }
                 HttpContent content = new StringContent(rawRequest, Encoding.UTF8, "application/json");
                 var response = client.PostAsync(requestUrl, content).Result;
                 statusCode = response.StatusCode;
 
-                rawResult = Task.Run(() => response.Content.ReadAsStringAsync()).Result;
+                rawResult = response.Content.ReadAsStringAsync().Result;
             }
 
             // Deserialize the response
