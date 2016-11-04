@@ -1,0 +1,54 @@
+﻿@model SACustomAPI.Models.HardstopViewModel
+
+@{
+    ViewBag.Title = "Hardstop";
+}
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-6"><h2>High Threat Detected!</h2></div>
+    <div class="col-md-5"></div>
+</div>
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-6 jumbotron">
+        You have been restricted from logging in due to the high suspicion of attack like behavior associated with your IP Address. If you feel that you have reached this page in error, please contatct your System Administrator.
+    </div>
+    <div class="col-md-5">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Threat Service and Adaptive Authentication</h3>
+            </div>
+            <div class="panel-body">
+                <p>SecureAuth can supply you with the Risk and Threat of a specific IP Address. Armed with this information, you can stop users from authenticating or force them to two-factor depending on your application logic.</p>
+                <p>Additionally, SecureAuth performs a number of checks on the contextual data about the user, such as Geo-Location, Geo-Velocity, and group membership. This allows you to build dynamic workflows based on this data, including blocking user authentication from location  you do not do business with.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">SecureAuth RESTful APIs from Adapt:</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-6">
+                    <p style="text-align: center"><strong>IP Risk Eval</strong></p>
+                    <p>Request:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.IpEvalRequest)</pre>
+                    <p>Response:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.IpEvalResponse)</pre>
+                </div>
+                <div class="col-md-6">
+                    <p style="text-align: center"><strong>Adaptive Auth</strong></p>
+                    <p>Request:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.AdaptiveRequest)</pre>
+                    <p>Response:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.AdaptiveResponse)</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

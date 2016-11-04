@@ -1,0 +1,97 @@
+﻿@model SACustomAPI.Models.LoginViewModel
+
+@section Scripts
+    {
+    <script src="@ViewBag.DFP"></script>
+    <script>
+        $(function () {
+            // invoke getFingerprint() method to capture
+            // client-side info and serialize to JSON string.
+            var serializedData = JSON.stringify(secureAuth.api.getFingerprint());
+            // assign JSON string to an input for posting
+            // to web server.
+            $('#results').val(serializedData);
+        });
+    </script>
+}
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-6"><h2>Login</h2></div>
+    <div class="col-md-5"></div>
+</div>
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-6">
+        <section id="loginForm">
+            @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.Fingerprint, new { @id = "results" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Log in" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+    <div class="col-md-5">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Logging in with SecureAuth IdP APIs</h3>
+            </div>
+            <div class="panel-body">
+                <p>SecureAuth provides a large set of Authentication APIs that streamlines the job of adding authentication, specifically strong authentication, into any application.</p>
+                <p>For this Test Application, SecureAuth has created a basic .NET web site using the MVC (Model-View-Controller) framework. Authentication is handled by standard .NET forms authentication. Strong Authentication is handled by a custom session object which keeps track of the state is user is in during authentication, call CustomAuthorize.</p>
+                <p>This example should be used as a spring board for implementation into any web application, as the concepts and API calls are all derived from well-known standards across any programing language.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">SecureAuth RESTful APIs In Use:</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-6">
+                    <p style="text-align: center"><strong>Validate User Password</strong></p>
+                    <p>This is a POST request to the /auth endpoint.</p>
+                    <pre>{
+  &quot;user_id&quot;: &quot;&lt;USERNAME&gt;&quot;,
+  &quot;type&quot;: &quot;password&quot;,
+  &quot;token&quot;: &quot;&lt;PASSWORD&gt;&quot;
+}</pre>
+                </div>
+                <div class="col-md-6">
+                    <p style="text-align: center"><strong>Get DFP Source</strong></p>
+                    <p>This is a GET request to the /dfp/js endpoint.</p>
+                    <pre></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,129 @@
+﻿@model SACustomAPI.Models.OtpViewModel
+
+@section Scripts
+    {
+    <script>
+        function addNumber(e) {
+            var v = $('#PINbox').val();
+            $('#PINbox').val(v + e.value);
+        }
+        function clearForm(e) {
+            $('#PINbox').val('');
+        }
+        function submitForm() {
+            $('#otpForm').submit();
+        }
+
+        $(document).ready(function () {
+            if ('@Model.OtpType' == 'push_accept') {
+                $.ajax({
+                    url: '@Url.Action("Push", "Login")',
+                    type: 'GET',
+                    dataType: 'json',
+                    // we set cache: false because GET requests are often cached by browsers
+                    // IE is particularly aggressive in that respect
+                    cache: false,
+                    success: function (response) {
+                        console.log(response);
+                        if (response.result == "Redirect") {
+                            window.location = response.url;
+                        }
+                        else {
+                            $('.loader').hide();
+                            $('.adapt__header').html("Login Request Failed with response of: " + response.result);
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}
+
+@{
+    ViewBag.Title = "One-Time Passcode";
+}
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-6"><h2>Enter your One-Time Passcode</h2></div>
+    <div class="col-md-5"></div>
+</div>
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-6">
+        @using (Html.BeginForm("Otp", "Login", FormMethod.Post, new { role = "form", id = "otpForm", Name = "otpForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.Kbq1FactorId)
+            @Html.HiddenFor(m => m.Kbq2FactorId)
+            if (Model.OtpType == "push_accept")
+            {
+                Html.RenderPartial("PushCheck", Model);
+            }
+            if (Model.OtpType == "kbq")
+            {
+                Html.RenderPartial("KbqEntry", Model);
+            }
+            if (Model.OtpType == "pin")
+            {
+                Html.RenderPartial("PinEntry", Model);
+            }
+        }
+    </div>
+    <div class="col-md-5">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">One-Time Passcodes</h3>
+            </div>
+            <div class="panel-body">
+                <p>SecureAuth provides the ability to send One-Time Passcodes over a large array of delivery methods.</p>
+                <p>The validation of the user entered One-Time Passcode is simple. Compare the returned OTP from the Send OTP API method with what the user has entered on your pin entry method.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">SecureAuth RESTful APIs In Use:</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <p style="text-align: center"><strong>DFP Confirm</strong></p>
+                    <p>This is a POST request to the /dfp/confrim endpoint.</p>
+                    <pre>{
+  &quot;user_id&quot;: &quot;&lt;USERNAME&gt;&quot;,
+  &quot;fingerprint_id&quot;: &quot;&lt;FP ID&gt;&quot;
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">SecureAuth RESTful APIs from Select:</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-6">
+                    <p style="text-align: center"><strong>User MFA Factors</strong></p>
+                    <p>Request:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.GetFactorsRequest)</pre>
+                    <p>Response:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.GetFactorsResponse)</pre>
+                </div>
+                <div class="col-md-6">
+                    <p style="text-align: center"><strong>Send OTP</strong></p>
+                    <p>Request:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.OtpRequest)</pre>
+                    <p>Response:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.OtpResponse)</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,155 @@
+﻿@model SACustomAPI.Models.AdaptViewModel
+@using SACustomAPI.Models
+
+@{
+    ViewBag.Title = "Checking identity...";
+}
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            var error = $('.adapt__error');
+            var spin = $('.spinner');
+            if (error.html() == '0') {
+                spin.hide();
+            }
+            setTimeout(function () { $('#hiddenForm').submit() }, 30000);
+        });
+    </script>
+}
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-6 adapt__header">
+        <h3>Please wait while we check your device...</h3>
+        @Html.ValidationMessage("AdaptError", new { @class = "adapt__error" })
+        @using (Html.BeginForm("Adapt", "Login", FormMethod.Post, new { @class = "form-horizontal", role = "form", style = "display: none", id = "hiddenForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.localRedirect)
+            @Html.HiddenFor(m => m.actionRedirect)
+            @Html.HiddenFor(m => m.outsideRedirect)
+            @Html.HiddenFor(m => m.routeRedirect)
+        }
+        <div class="form-group" style="display:none">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="hiddenSubmit" id="submit" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5"></div>
+</div>
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-6 spinner">
+        <div class="loader">Loading...</div>
+    </div>
+    <div class="col-md-5">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Adaptive Authentication At Work!</h3>
+            </div>
+            <div class="panel-body">
+                <p>SecureAuth offers world class strong identity authentication through a number of adaptive, contextual controls.</p>
+                <p>Currently, as this page is hit, the web application is processing the connecting user's IP address, User/Group, Geo-Location, and Access History to make a determination of the next steps to be taken in authentication. Normally, this action takes less than 2 second and has been slowed down for demonstration purposes.</p>
+                <p>When the user selects “remember this device” during the logon sequence, and is strongly authenticated, the unique device/browser characteristics are saved, and then are used on subsequent logons.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">SecureAuth RESTful APIs In Use:</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-3">
+                    <p style="text-align: center"><strong>Access History</strong></p>
+                    <p>This is a POST request to the /accesshistory endpoint.</p>
+                    <pre>{
+  &quot;user_id&quot;: &quot;&lt;USERNAME&gt;&quot;,
+  &quot;ip_address&quot;: &quot;&lt;IP ADDRESS&gt;&quot;
+}</pre>
+                </div>
+                <div class="col-md-3">
+                    <p style="text-align: center"><strong>Adaptive Authentication</strong></p>
+                    <p>This is a POST request to the /adaptauth endpoint.</p>
+                    <pre>{
+  &quot;user_id&quot;: &quot;&lt;USERNAME&gt;&quot;,
+  &quot;parameters&quot;: {
+    &quot;ip_address&quot;: &quot;&lt;IP ADDRESS&gt;&quot;
+  }
+}</pre>
+                </div>
+                <div class="col-md-3">
+                    <p style="text-align: center"><strong>IP Risk Evaluation</strong></p>
+                    <p>This is a POST request to the /ipeval endpoint.</p>
+                    <pre>{
+  &quot;user_id&quot;: &quot;&lt;USERNAME&gt;&quot;,
+  &quot;type&quot;: &quot;risk&quot;,
+  &quot;ip_address&quot;: &quot;&lt;IP ADDRESS&gt;&quot;
+}</pre>
+
+                </div>
+                <div class="col-md-3">
+                    <p style="text-align: center"><strong>Device Recognition Validate</strong></p>
+                    <p>This is a POST request to the /dfp/validate endpoint.</p>
+                    <pre>{
+  &quot;user_id&quot;: &quot;&lt;USERNAME&gt;&quot;,
+  &quot;host_address&quot;: &quot;&lt;IP ADDRESS&gt;&quot;,
+  &quot;fingerprint_id&quot;: &quot;&lt;FP ID&gt;&quot;,
+  &quot;fingerprint&quot;: {
+    &quot;fonts&quot;: &quot;&lt;FONT LIST&gt;&quot;,
+    &quot;plugins&quot;: &quot;&lt;PLUGIN LIST&gt;&quot;,
+    &quot;timezone&quot;: &quot;&lt;TIMEZONE&gt;&quot;,
+    &quot;video&quot;: &quot;&lt;VIDEO&gt;&quot;,
+    &quot;local_storage&quot;: &quot;&lt;T OR F&gt;&quot;,
+    &quot;session_storage&quot;: &quot;&lt;T OR F&gt;&quot;,
+    &quot;ie_user_data&quot;: &quot;&lt;T OR F&gt;&quot;,
+    &quot;cookie_enabled&quot;: &quot;&lt;T OR F&gt;&quot;,
+    &quot;user_agent&quot;: &quot;&lt;USER AGENT INFO&gt;&quot;,
+    &quot;accept&quot;: &quot;&lt;ACCEPT INFO&gt;&quot;,
+    &quot;accept_charset&quot;: &quot;&lt;CHARSET INFO&gt;&quot;,
+    &quot;accept_encoding&quot;: &quot;&lt;ENCODING INFO&gt;&quot;,
+    &quot;accept_language&quot;: &quot;&lt;LANG INFO&gt;&quot;
+  }
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">SecureAuth RESTful APIs from Login:</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-4">
+                    <p style="text-align: center"><strong>DFP Source</strong></p>
+                    <p>Request:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.DfpJsRequest)</pre>
+                    <p>Response:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.DfpJsResponse)</pre>
+                </div>
+                <div class="col-md-4">
+                    <p style="text-align: center"><strong>Validate User Password</strong></p>
+                    <p>Request:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.PwdRequest)</pre>
+                    <p>Response:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.PwdResponse)</pre>
+                </div>
+                <div class="col-md-4">
+                    <p style="text-align: center"><strong>User Profile</strong></p>
+                    <p>Request:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.ProfileRequest)</pre>
+                    <p>Response:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.ProfileResponse)</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

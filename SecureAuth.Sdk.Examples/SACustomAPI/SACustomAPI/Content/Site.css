@@ -1,0 +1,239 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.btn--double {
+    width: 60px;
+}
+
+.btn--select {
+    width: 120px;
+}
+
+.otplabel {
+    width: 190px;
+    text-align: left;
+}
+
+#selectForm {
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    border: 0 solid #000000;
+    background-color: #dae6f0;
+    padding-top:10px;
+}
+
+.select2fa {
+    padding: 0 10px 0 10px;
+}
+
+.navbarsa {
+    background-color: white;
+    border-bottom: 1px solid #eee;
+}
+
+.navbar-logo {
+    background: url("Images/logo.png");
+    background-size: 200px 48px;
+    height: 48px;
+    width: 200px;
+    margin: 5px;
+}
+
+.nav-align {
+    padding-top: 5px;
+}
+
+.trust--device {
+    margin-left: -3%;
+}
+
+.select__otp {
+    width: 200px;
+}
+
+.select__otp label {
+    background-color: #ededed
+}
+
+.adapt__header,
+.spinner {
+    text-align: center;
+}
+
+.mainSelect {
+    margin-bottom: 20px;
+}
+
+.otpSelect {
+    padding: 3px 0 3px 0;
+}
+
+.btn__otp {
+    width: 70px;
+}
+
+#PINform input:focus,
+#PINform select:focus,
+#PINform textarea:focus,
+#PINform button:focus {
+	outline: none;
+}
+
+#PINform,
+#PINbox {
+    text-align: center;
+}
+
+#PINform {
+    background: #ededed;
+    -webkit-box-shadow: 0 5px 5px 0 rgba(0,0,0,0.3);
+         -moz-box-shadow: 0 5px 5px 0 rgba(0,0,0,0.3);
+              box-shadow: 0 5px 5px 0 rgba(0,0,0,0.3);
+}
+
+#PINbox {
+    padding: 5px;
+    margin: 3.5%;
+	width: 92%;
+	font-size: 3em;
+	text-align: center;
+	border: 1px solid #d5d5d5;
+}
+
+.PINbutton {
+	background: #ededed;
+	color: #7e7e7e;
+	border: none;
+    border-radius: 50%;
+	font-size: 1.5em;
+	text-align: center;
+	width: 60px;
+	height: 60px;
+	margin: 7px 20px;
+	padding: 0;
+}
+
+#PINcode {
+    padding: 20px 105px 30px 105px;
+    float: left;
+}
+
+.clear, .enter {
+	font-size: 1em;
+}
+.PINbutton:hover {
+ 	box-shadow: #337ab7 0 0 1px 1px;
+}
+.PINbutton:active {
+ 	background: #337ab7;
+	color: #fff;
+}
+.clear:hover {
+ 	box-shadow: #ff3c41 0 0 1px 1px;
+}
+.clear:active {
+ 	background: #ff3c41;
+	color: #fff;
+}
+.enter:hover {
+ 	box-shadow: #47cf73 0 0 1px 1px;
+}
+.enter:active {
+ 	background: #47cf73;
+	color: #fff;
+}
+
+.loader {
+  color: #383838;
+  font-size: 90px;
+  text-indent: -9999em;
+  overflow: hidden;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  margin: 72px auto;
+  position: relative;
+  -o-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -moz-animation: load6 1.7s infinite ease;
+  -webkit-animation: load6 1.7s infinite ease;
+  animation: load6 1.7s infinite ease;
+}
+@-webkit-keyframes load6 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+  }
+  5%,
+  95% {
+    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+  }
+  10%,
+  59% {
+    box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
+  }
+  20% {
+    box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em;
+  }
+  38% {
+    box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em;
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+  }
+}
+@keyframes load6 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+  }
+  5%,
+  95% {
+    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+  }
+  10%,
+  59% {
+    box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
+  }
+  20% {
+    box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em;
+  }
+  38% {
+    box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em;
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+  }
+}
