@@ -1,0 +1,30 @@
+﻿@model SecureAuth.Sdk.MultiFactorOption
+
+@if (Model.Capabilities.Contains("push"))
+{
+
+    <div class="form-group select2fa">
+        <div class="input-group">
+            <span class="input-group-addon otplabel" id="basic-addon3"><strong>Deliver OTP to:&nbsp;</strong></span>
+            @Html.LabelFor(m => m.FactorValue, Model.FactorValue, new { @class = "form-control", aria_describedby = "basic-addon3", @style = "background-color:#eee;" })
+            <span class="input-group-btn">
+                <button class="btn btn-primary btn--select selectbtn" data-factorid="@Model.FactorId" data-type="@Model.FactorType" data-capability="push">Send</button>
+            </span>
+        </div>
+    </div>
+}
+
+@if (Model.Capabilities.Contains("push_accept"))
+{
+    <div class="form-group select2fa">
+        <div class="input-group">
+            <span class="input-group-addon otplabel" id="basic-addon3"><strong>Send Login Request to:&nbsp;</strong></span>
+            @Html.LabelFor(m => m.FactorValue, Model.FactorValue, new { @class = "form-control", aria_describedby = "basic-addon3", @style = "background-color:#eee;" })
+            <span class="input-group-btn">
+                <button class="btn btn-primary btn--select selectbtn" data-factorid="@Model.FactorId" data-type="@Model.FactorType" data-capability="push_accept">Send</button>
+            </span>
+        </div>
+    </div>
+}
+
+

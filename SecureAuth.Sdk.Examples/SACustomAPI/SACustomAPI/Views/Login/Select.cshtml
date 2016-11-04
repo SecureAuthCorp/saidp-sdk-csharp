@@ -1,0 +1,173 @@
+﻿@model SACustomAPI.Models.SelectViewModel
+
+@{
+    ViewBag.Title = "Select Two Factor";
+}
+
+@section Scripts 
+    {
+        <script>
+            $('button.selectbtn').click(function (event) {
+                event.preventDefault();
+                var button = this;
+                $('#selectId').attr('value', $(button).data("factorid"));
+                $('#type').attr('value', $(button).data("type"));
+                $('#capability').attr('value', $(button).data("capability"));
+                $('#hiddenForm').submit();
+            });
+        </script>
+    }
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-6"><h2>Select Second Factor</h2></div>
+    <div class="col-md-5"></div>
+</div>
+
+
+<div class="row mainSelect">
+    <div class="col-md-1"></div>
+    <div class="col-md-6" id="selectForm">
+        @using (Html.BeginForm("Select", "Login", FormMethod.Post, new { @class = "form-horizontal", role = "form", style = "display: none", id = "hiddenForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.selectedFactorId, new { id = "selectId" })
+            @Html.HiddenFor(m => m.selectedType, new { id = "type" })
+            @Html.HiddenFor(m => m.selectedCapability, new { id = "capability" })
+        }
+        @if (Model.phoneFactors != null)
+            {
+                foreach (var mfo in Model.phoneFactors)
+                {
+                    Html.RenderPartial("PhoneSelect", mfo);
+                }
+            }
+        @if (Model.emailFactors != null)
+            {
+                foreach (var mfo in Model.emailFactors)
+                {
+                    Html.RenderPartial("EmailSelect", mfo);
+                }
+            }
+        @if (Model.oathFactors != null)
+            {
+                foreach (var mfo in Model.oathFactors)
+                {
+                    Html.RenderPartial("OathSelect", mfo);
+                }
+            }
+        @if (Model.pushFactors != null)
+            {
+                foreach (var mfo in Model.pushFactors)
+                {
+                    Html.RenderPartial("PushSelect", mfo);
+                }
+            }
+        @if (Model.kbqFactors != null)
+            {
+                Html.RenderPartial("KbqSelect", Model.kbqFactors[0]);
+            }
+        @if (Model.helpDeskFactors != null)
+            {
+                foreach (var mfo in Model.helpDeskFactors)
+                {
+                    Html.RenderPartial("HelpDeskSelect", mfo);
+                }
+            }
+    </div>
+    <div class="col-md-5">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Strong Authentication With SecureAuth IdP.</h3>
+            </div>
+            <div class="panel-body">
+                <p>SecureAuth allows users the flexibility of choice in how they strongly authenticate into your protected environments. With over 20+ two-factor authentication methods, every situation or typical difficulty with standard two-factor providers can be easily avoided by offering options to suite your user’s needs.</p>
+                <p>The majority of two-factor methods that SecureAuth provides are available in our Authentication API. This, combined with your own clever application logic, can be leveraged to create a user experience that is pleasing and easy to use for your users.</p>
+                <p>Additionally, SecureAuth can allow users to enter a phone number in an ad-hoc manner to facilitate user registration and situations where the stored numbers are not usable. This feature, combined with SecureAuth's phone number fraud detection, provides an authentication experiance that is pain free for your users.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">SecureAuth RESTful APIs In Use:</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-3">
+                    <p style="text-align: center"><strong>Get User Multi-Factor Options</strong></p>
+                    <p>This is a GET request to the /users endpoint.</p>
+                    <pre></pre>
+                </div>
+                <div class="col-md-3">
+                    <p style="text-align: center"><strong>Send OTP By Call</strong></p>
+                    <p>This is a POST request to the /auth endpoint.</p>
+                    <pre>{
+  &quot;user_id&quot;: &quot;&lt;USERNAME&gt;&quot;,
+  &quot;type&quot;: &quot;call&quot;,
+  &quot;factor_id&quot;: &quot;&lt;PHONE PROPERTY&gt;&quot;
+}</pre>
+                </div>
+                <div class="col-md-3">
+                    <p style="text-align: center"><strong>Send OTP by SMS</strong></p>
+                    <p>This is a POST request to the /auth endpoint.</p>
+                    <pre>{
+  &quot;user_id&quot;: &quot;&lt;USERNAME&gt;&quot;,
+  &quot;type&quot;: &quot;sms&quot;,
+  &quot;factor_id&quot;: &quot;&lt;PHONE PROPERTY&gt;&quot;
+}</pre>
+
+                </div>
+                <div class="col-md-3">
+                    <p style="text-align: center"><strong>Send OTP by Email</strong></p>
+                    <p>This is a POST request to the /auth endpoint.</p>
+                    <pre>{
+  &quot;user_id&quot;: &quot;&lt;USERNAME&gt;&quot;,
+  &quot;type&quot;: &quot;email&quot;,
+  &quot;factor_id&quot;: &quot;&lt;EMAIL PROPERTY&gt;&quot;
+}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">SecureAuth RESTful APIs from Adapt:</h3>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-3">
+                    <p style="text-align: center"><strong>Access History</strong></p>
+                    <p>Request:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.AccessHistoryRequest)</pre>
+                    <p>Response:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.AccessHistoryResponse)</pre>
+                </div>
+                <div class="col-md-3">
+                    <p style="text-align: center"><strong>Adapt Auth</strong></p>
+                    <p>Request:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.AdaptiveRequest)</pre>
+                    <p>Response:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.AdaptiveResponse)</pre>
+                </div>
+                <div class="col-md-3">
+                    <p style="text-align: center"><strong>IP Risk Eval</strong></p>
+                    <p>Request:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.IpEvalRequest)</pre>
+                    <p>Response:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.IpEvalResponse)</pre>
+                </div>
+                <div class="col-md-3">
+                    <p style="text-align: center"><strong>DFP Validate</strong></p>
+                    <p>Request:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.DfpValidateRequest)</pre>
+                    <p>Response:</p>
+                    <pre>@Html.DisplayFor(m => m.apiJson.DfpValidateResponse)</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

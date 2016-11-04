@@ -1,0 +1,19 @@
+﻿@model SecureAuth.Sdk.MultiFactorOption
+@using SACustomAPI.Models
+
+<div class="form-group select2fa">
+    <div class="input-group">
+        <span class="input-group-addon otplabel" id="basic-addon3"><strong>Deliver OTP to:&nbsp;</strong></span>
+        @Html.LabelFor(m => m.FactorValue, Model.FactorValue.MaskPhone(), new { @class = "form-control", aria_describedby = "basic-addon3", @style="background-color:#eee" })
+        <span class="input-group-btn">
+            @if (Model.Capabilities.Contains("call"))
+            {
+                <button class="btn btn-primary btn--double selectbtn" data-factorid="@Model.FactorId" data-type="@Model.FactorType" data-capability="call">Call</button>
+            }
+            @if (Model.Capabilities.Contains("sms"))
+            {
+                <button class="btn btn-primary btn--double selectbtn" data-factorid="@Model.FactorId" data-type="@Model.FactorType" data-capability="sms">Text</button>
+            }
+        </span>
+    </div>
+</div>

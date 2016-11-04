@@ -1,0 +1,34 @@
+﻿@model SACustomAPI.Models.OtpViewModel
+<div class="form-group">
+    @Html.LabelFor(m => m.KbqQuestion1.FactorValue, Model.KbqQuestion1.FactorValue)
+    @Html.PasswordFor(m => m.KbqAnswer1, new { @class = "form-control" })
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.KbqQuestion2.FactorValue, Model.KbqQuestion2.FactorValue)
+    @Html.PasswordFor(m => m.KbqAnswer2, new { @class = "form-control" })
+</div>
+@if (Model.canTrust)
+{
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="checkbox-inline" style="margin-top: 20px; margin-left: 30px;">
+            @Html.CheckBoxFor(m => m.isTrustedDevice)
+            @Html.LabelFor(m => m.isTrustedDevice)
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+}
+@if (Model.canTrust)
+{
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="checkbox-inline" style="margin-top: 20px; margin-left: 30px;">
+            @Html.CheckBoxFor(m => m.isTrustedDevice)
+            @Html.LabelFor(m => m.isTrustedDevice)
+        </div>
+    </div>
+        <div class="col-md-1"></div>
+}
+<div class="form-group">
+    <input type="submit" value="Submit" class="btn btn-default" />
+</div>

@@ -1,0 +1,16 @@
+﻿@model SACustomAPI.Models.OtpViewModel
+
+<div class="adapt__header">Login Request sent to device, awaiting response...</div>
+<div class="loader">Waiting for Response...</div>
+
+@if (Model.canTrust)
+{
+    <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="checkbox-inline" style="margin-top: 20px; margin-left: 30px;">
+                @Html.CheckBoxFor(m => m.isTrustedDevice)
+                @Html.LabelFor(m => m.isTrustedDevice)
+            </div>
+        </div>
+            <div class="col-md-1"></div>
+}

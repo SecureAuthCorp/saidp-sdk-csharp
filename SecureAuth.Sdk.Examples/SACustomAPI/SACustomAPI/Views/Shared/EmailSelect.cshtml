@@ -1,0 +1,12 @@
+﻿@model SecureAuth.Sdk.MultiFactorOption
+@using SACustomAPI.Models
+
+<div class="form-group select2fa">
+    <div class="input-group">
+        <span class="input-group-addon otplabel" id="basic-addon3"><strong>Deliver OTP to:&nbsp;</strong></span>
+        @Html.LabelFor(m => m.FactorValue, Model.FactorValue.MaskEmail(), new { @class = "form-control", aria_describedby = "basic-addon3", @style = "background-color:#eee" })
+        <span class="input-group-btn">
+            <button class="btn btn-primary btn--select selectbtn" data-factorid="@Model.FactorId" data-type="@Model.FactorType" data-capability="">Email</button>
+        </span>
+    </div>
+</div>
