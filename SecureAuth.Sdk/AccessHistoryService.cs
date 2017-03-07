@@ -2,7 +2,7 @@
 
 namespace SecureAuth.Sdk
 {
-    public class AccessHistoryService
+    public class AccessHistoryService : IAccessHistoryService
     {
         private readonly ApiClient _apiClient;
 

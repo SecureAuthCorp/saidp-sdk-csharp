@@ -2,7 +2,7 @@
 
 namespace SecureAuth.Sdk
 {
-    public class IpEvaluationService
+    public class IpEvaluationService : IIpEvaluationService
     {
         private readonly ApiClient _apiClient;
 

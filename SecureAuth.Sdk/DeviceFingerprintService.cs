@@ -3,7 +3,7 @@ using System;
 
 namespace SecureAuth.Sdk
 {
-    public class DeviceFingerprintService
+    public class DeviceFingerprintService : IDeviceFingerprintService
     {
         private readonly ApiClient _apiClient;
 

@@ -7,7 +7,7 @@ namespace SecureAuth.Sdk.UnitTests
     public class AuthenticationServiceTests
     {
         // Globals
-        static SecureAuthService secAuthSvc;
+        static ISecureAuthService secAuthSvc;
         static string goodUsername;
         static string goodPassword;
         static string badUsername;

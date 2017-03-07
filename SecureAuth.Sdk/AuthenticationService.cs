@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SecureAuth.Sdk
 {
-    public class AuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
         private readonly ApiClient _apiClient;
 

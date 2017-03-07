@@ -2,7 +2,7 @@
 
 namespace SecureAuth.Sdk
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly ApiClient _apiClient;
 

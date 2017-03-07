@@ -1,7 +1,7 @@
 ﻿
 namespace SecureAuth.Sdk
 {
-    public class SecureAuthService
+    public class SecureAuthService : ISecureAuthService
     {
         #region Public Properties
         public Configuration Configuration { get; set; }
@@ -38,7 +38,7 @@ namespace SecureAuth.Sdk
         /// SecureAuth Service instance. Use for making calls
         /// to the /api/v1/user endpoint.
         /// </summary>
-        public UserService User
+        public IUserService User
         {
             get
             {
@@ -51,7 +51,7 @@ namespace SecureAuth.Sdk
         /// SecureAuth Service instance. Use for making calls to the
         /// /api/v1/auth endpoint.
         /// </summary>
-        public AuthenticationService Authenticate
+        public IAuthenticationService Authenticate
         {
             get
             {
@@ -64,7 +64,7 @@ namespace SecureAuth.Sdk
         /// SecureAuth Service instance. Use for making calls to the
         /// /api/v1/ipeval endpoint.
         /// </summary>
-        public IpEvaluationService EvaluateIp
+        public IIpEvaluationService EvaluateIp
         {
             get
             {
@@ -77,7 +77,7 @@ namespace SecureAuth.Sdk
         /// SecureAuth Service instance. Use for making calls to the 
         /// /api/v1/dfp endpoint.
         /// </summary>
-        public DeviceFingerprintService DeviceFingerprint
+        public IDeviceFingerprintService DeviceFingerprint
         {
             get
             {
@@ -90,7 +90,7 @@ namespace SecureAuth.Sdk
         /// SecureAuth Service instance. Use for making calls to the 
         /// /api/v1/accesshistory endpoint.
         /// </summary>
-        public AccessHistoryService AccessHistory
+        public IAccessHistoryService AccessHistory
         {
             get
             {
@@ -103,7 +103,7 @@ namespace SecureAuth.Sdk
         /// SecureAuth Service instance. Use for making calls to the 
         /// /api/v1/adaptauth endpoint.
         /// </summary>
-        public AdaptiveAuthService AdaptiveAuth
+        public IAdaptiveAuthService AdaptiveAuth
         {
             get
             {
@@ -116,7 +116,7 @@ namespace SecureAuth.Sdk
         /// SecureAuth Service instance. Use for making calls
         /// to the /api/v1/groupservice endpoint.
         /// </summary>
-        public GroupService GroupService
+        public IGroupService GroupService
         {
             get
             {

@@ -2,7 +2,7 @@
 
 namespace SecureAuth.Sdk
 {
-    public class GroupService
+    public class GroupService : IGroupService
     {
         private readonly ApiClient _apiClient;
 
