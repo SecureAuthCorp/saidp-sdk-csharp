@@ -2,7 +2,7 @@
 
 namespace SecureAuth.Sdk
 {
-    public class AdaptiveAuthService
+    public class AdaptiveAuthService : IAdaptiveAuthService
     {
         private readonly ApiClient _apiClient;
 

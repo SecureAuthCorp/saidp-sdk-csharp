@@ -56,7 +56,15 @@
     <Compile Include="HashTool.cs" />
     <Compile Include="HmacBasicAuthenticationHelper.cs" />
     <Compile Include="HmacSigningHandler.cs" />
+    <Compile Include="IAccessHistoryService.cs" />
+    <Compile Include="IAdaptiveAuthService.cs" />
+    <Compile Include="IAuthenticationService.cs" />
+    <Compile Include="IDeviceFingerprintService.cs" />
+    <Compile Include="IGroupService.cs" />
+    <Compile Include="IIpEvaluationService.cs" />
     <Compile Include="IpEvaluationService.cs" />
+    <Compile Include="ISecureAuthService.cs" />
+    <Compile Include="IUserService.cs" />
     <Compile Include="JsonSerializer.cs" />
     <Compile Include="Models\AccessHistory.cs" />
     <Compile Include="Models\Factoring.cs" />
