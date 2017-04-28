@@ -10,5 +10,7 @@
         BaseResponse ResetPassword(string userId, ResetPasswordRequest request);
         BaseResponse AddGroupToUser(string userId, string groupName);
         GroupAssociateResponse AddGroupsToUser(string userId, GroupAssociateRequest request);
+        ThrottleResponse GetThrottleCount(string userId);
+        ThrottleResponse ResetThrottleCount(string userId);
     }
 }

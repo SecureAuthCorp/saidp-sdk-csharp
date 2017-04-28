@@ -25,6 +25,7 @@ namespace SecureAuth.Sdk
         {
             get { return this.Configuration.SecureAuthRealmUrl; }
         }
+
         #endregion
 
         #region Constructors
@@ -55,7 +56,6 @@ namespace SecureAuth.Sdk
             {
                 var response = client.GetAsync(requestUrl).Result;
                 statusCode = response.StatusCode;
-
                 rawResult = response.Content.ReadAsStringAsync().Result;
             }
 
@@ -85,6 +85,38 @@ namespace SecureAuth.Sdk
                 }
                 HttpContent content = new StringContent(rawRequest, Encoding.UTF8, "application/json");
                 var response = client.PostAsync(requestUrl, content).Result;
+                statusCode = response.StatusCode;
+
+                rawResult = response.Content.ReadAsStringAsync().Result;
+            }
+
+            // Deserialize the response
+            var result = JsonSerializer.Deserialize<T>(rawResult);
+
+            // Set HTTP status code and return
+            ((BaseResponse)result).StatusCode = statusCode;
+            ((BaseResponse)result).RawJson = rawResult;
+            ((BaseResponse)result).RawRequestJson = rawRequest;
+            return result;
+        }
+
+        internal T Put<T>(string apiEndpoint, BaseRequest request = null)
+            where T : BaseResponse
+        {
+            string rawResult = string.Empty;
+            string rawRequest = string.Empty;
+            HttpStatusCode statusCode;
+            string requestUrl = string.Concat(this.SecureAuthRealmUrl, apiEndpoint);
+
+            // Process HTTP request
+            using (HttpClient client = new HttpClient(new HmacSigningHandler(this.AppId, this.AppKey)))
+            {
+                if (request != null)
+                {
+                    rawRequest = JsonSerializer.Serialize(request);
+                }
+                HttpContent content = new StringContent(rawRequest, Encoding.UTF8, "application/json");
+                var response = client.PutAsync(requestUrl, content).Result;
                 statusCode = response.StatusCode;
 
                 rawResult = response.Content.ReadAsStringAsync().Result;

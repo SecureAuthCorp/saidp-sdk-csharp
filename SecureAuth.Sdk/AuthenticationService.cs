@@ -127,9 +127,59 @@ namespace SecureAuth.Sdk
             // process request
             return Validate(request);
         }
+
+        /// <summary>
+        /// Validate the user entered OTP agains the OTP sent using the SendOTP API.
+        /// Requires configuration to enable OTP saving to user profile in IdP.
+        /// </summary>
+        /// <param name="request">ValidateOtpRequest</param>
+        /// <returns>BaseResponse</returns>
+        public BaseResponse ValidateOtp(ValidateOtpRequest request)
+        {
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("ValidateOtpRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.Otp))
+            {
+                throw new ArgumentNullException("ValidateOtpRequest.Otp", "OTP cannot be empty.");
+            }
+
+            //process request
+            return this._apiClient.Post<BaseResponse>("/api/v1/validateotp", request);
+        }
         #endregion
 
         #region Send OTP Methods
+
+        /// <summary>
+        /// Send a one time passcode to the specified token value
+        /// with the select type of delivery channel
+        /// </summary>
+        /// <param name="request">AdhocOtpRequest</param>
+        /// <returns>SendOtpResponse</returns>
+        public SendOtpResponse SendAdHocOtp(AdHocOtpRequest request)
+        {
+            string[] validTypes = { "sms", "call", "email" };
+
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("AdhocOtpRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.Token))
+            {
+                throw new ArgumentNullException("AdhocOtpRequest.Token", "Token cannot be empty.");
+            }
+            if (!validTypes.Contains(request.Type))
+            {
+                throw new ArgumentException("AdhocOtpRequest.Type", "Invalid request type.");
+            }
+
+            //process request
+            return SendOtp(request);
+        } 
         /// <summary>
         /// Send a one time passcode to the email address associated
         /// with the email factor ID.
