@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using SecureAuth.Sdk.Requests;
 
 namespace SecureAuth.Sdk
 {
@@ -240,7 +241,7 @@ namespace SecureAuth.Sdk
             // process request
             return SendOtp(request);
         }
-        
+
         /// <summary>
         /// Send a one time passcode SMS message to the phone number 
         /// associated with the phone factor ID.
@@ -268,6 +269,29 @@ namespace SecureAuth.Sdk
             // process request
             return SendOtp(request);
         }
+
+        /// <summary>
+        /// Send a one time passcode SMS message to the phone number 
+        /// associated with the phone factor ID.
+        /// </summary>
+        /// <param name="request">SmstpRequest</param>
+        /// <returns>SendOtpResponse</returns>
+        public SendOtpResponse SendAdHocSmsOtp(AdHocSmsOtpRequest request)
+        {
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("PhonecallOtpRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.Token))
+            {
+                throw new ArgumentNullException("SendAdHocSmsOtp.Token", "Token cannot be empty");
+            }
+            // process request
+            return SendOtp(request);
+        }
+
+
         #endregion
 
         #region Push Accept Methods

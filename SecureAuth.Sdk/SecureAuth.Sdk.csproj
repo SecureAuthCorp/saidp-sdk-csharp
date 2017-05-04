@@ -76,6 +76,7 @@
     <Compile Include="Models\PushAcceptDetails.cs" />
     <Compile Include="Models\UserProfileProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\AdHocSmsOtpRequest.cs" />
     <Compile Include="Requests\BaseRequest.cs" />
     <Compile Include="Requests\ConfirmDfpRequest.cs" />
     <Compile Include="Requests\AccessHistoryRequest.cs" />
