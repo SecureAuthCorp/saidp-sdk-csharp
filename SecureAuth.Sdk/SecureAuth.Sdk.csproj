@@ -67,6 +67,8 @@
     <Compile Include="IUserService.cs" />
     <Compile Include="JsonSerializer.cs" />
     <Compile Include="Models\AccessHistory.cs" />
+    <Compile Include="Requests\AdHocEmailOtpRequest.cs" />
+    <Compile Include="Requests\AdHocPhonecallOtpRequest.cs" />
     <Compile Include="Models\Factoring.cs" />
     <Compile Include="Models\Fingerprint.cs" />
     <Compile Include="Models\GeoLocation.cs" />

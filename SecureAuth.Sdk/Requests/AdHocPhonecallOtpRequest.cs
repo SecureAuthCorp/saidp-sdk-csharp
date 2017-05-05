@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 namespace SecureAuth.Sdk
 {
     [DataContract]
-    public class AdHocSmsOtpRequest : BaseRequest
+    public class AdHocPhonecallOtpRequest : BaseRequest
     {
-        public AdHocSmsOtpRequest()
+        public AdHocPhonecallOtpRequest()
         {
-            this.Type = "sms";
+            this.Type = "call";
         }
 
-        public AdHocSmsOtpRequest(string userId, string phoneNumber)
-            : base(userId, "sms")
+        public AdHocPhonecallOtpRequest(string userId, string phoneNumber)
+            : base(userId, "call")
         {
             Token = phoneNumber;
         }

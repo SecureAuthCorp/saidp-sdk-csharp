@@ -1,6 +1,4 @@
-﻿using SecureAuth.Sdk.Requests;
-
-namespace SecureAuth.Sdk
+﻿namespace SecureAuth.Sdk
 {
     public interface IAuthenticationService
     {
@@ -17,5 +15,7 @@ namespace SecureAuth.Sdk
         PushAcceptResponse SendPushAccept(PushAcceptRequest request);
         BaseResponse GetPushAcceptStatus(string referenceId);
         SendOtpResponse SendAdHocSmsOtp(AdHocSmsOtpRequest request);
+        SendOtpResponse SendAdHocPhonecallOtp(AdHocPhonecallOtpRequest request);
+        SendOtpResponse SendAdHocEmailOtp(AdHocEmailOtpRequest request);
     }
 }
