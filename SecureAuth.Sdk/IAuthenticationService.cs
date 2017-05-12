@@ -7,6 +7,8 @@
         BaseResponse ValidateKba(ValidateKbaRequest request);
         BaseResponse ValidateOath(ValidateOathRequest request);
         BaseResponse ValidatePin(ValidatePinRequest request);
+        BaseResponse ValidateOtp(ValidateOtpRequest request);
+        SendOtpResponse SendAdHocOtp(AdHocOtpRequest request);
         SendOtpResponse SendEmailOtp(EmailOtpRequest request);
         SendOtpResponse SendHelpDeskOtp(HelpDeskOtpRequest request);
         SendOtpResponse SendPhonecallOtp(PhonecallOtpRequest request);

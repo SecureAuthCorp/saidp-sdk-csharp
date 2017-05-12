@@ -142,5 +142,35 @@ namespace SecureAuth.Sdk
 
             return this._apiClient.Post<GroupAssociateResponse>(string.Format("/api/v1/users/{0}/groups", userId), request);
         }
+
+        /// <summary>
+        /// Gets the current throttle count of a user for 2FA throttling.
+        /// </summary>
+        /// <param name="userId">The unique user ID</param>
+        /// <returns>ThrottleResponse</returns>
+        public ThrottleResponse GetThrottleCount(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentException("userId", "User ID cannot be empty.");
+            }
+
+            return this._apiClient.Get<ThrottleResponse>(string.Format("/api/v1/users/{0}/throttle", userId));
+        }
+
+        /// <summary>
+        /// Resets the current throttle count of a user for 2FA throttling.
+        /// </summary>
+        /// <param name="userId">The unique user ID</param>
+        /// <returns>ThrottleResponse</returns>
+        public ThrottleResponse ResetThrottleCount(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentException("userId", "User ID cannot be empty.");
+            }
+
+            return this._apiClient.Put<ThrottleResponse>(string.Format("/api/v1/users/{0}/throttle", userId));
+        }
     }
 }
