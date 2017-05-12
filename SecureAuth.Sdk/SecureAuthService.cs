@@ -58,6 +58,19 @@ namespace SecureAuth.Sdk
                 return new AuthenticationService(new ApiClient(this.Configuration));
             }
         }
+
+        /// <summary>
+        /// Gets the NumberProfile Service instance for the 
+        /// current SecureAuth Service instance. Use for making calls to
+        /// the /ap1/v1/numberprofile endpoint.
+        /// </summary>
+        public INumberProfileService NumberProfile
+        {
+            get
+            {
+                return new NumberProfileService(new ApiClient(this.Configuration));
+            }
+        }
         
         /// <summary>
         /// Gets the IP Evaluation Service instance for the current 

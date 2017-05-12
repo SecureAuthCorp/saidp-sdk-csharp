@@ -8,6 +8,7 @@
         string SecureAuthRealmUrl { get; set; }
         IUserService User { get; }
         IAuthenticationService Authenticate { get; }
+        INumberProfileService NumberProfile { get; }
         IIpEvaluationService EvaluateIp { get; }
         IDeviceFingerprintService DeviceFingerprint { get; }
         IAccessHistoryService AccessHistory { get; }

@@ -25,5 +25,8 @@ namespace SecureAuth.Sdk
 
         [DataMember(Name = "factoring", EmitDefaultValue = false)]
         public Factoring Factoring { get; set; }
+
+        [DataMember(Name = "factor_description", EmitDefaultValue = false)]
+        public FactorDescription FactorDesctiption { get; set; }
     }
 }
