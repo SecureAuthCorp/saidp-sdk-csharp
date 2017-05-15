@@ -290,12 +290,12 @@ namespace SecureAuth.Sdk
             // process request
             return SendOtp(request);
         }
-        
+
         /// <summary>
         /// Send a one time passcode SMS message to the phone number 
         /// associated with the phone factor ID.
         /// </summary>
-        /// <param name="request">SmstpRequest</param>
+        /// <param name="request">SmsOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
         public SendOtpResponse SendSmsOtp(SmsOtpRequest request)
         {
@@ -318,6 +318,68 @@ namespace SecureAuth.Sdk
             // process request
             return SendOtp(request);
         }
+
+        /// <summary>
+        /// Send one time passcode SMS message to the specified phone number.
+        /// </summary>
+        /// <param name="request">AdHocSmsOtpRequest</param>
+        /// <returns>SendOtpResponse</returns>
+        public SendOtpResponse SendAdHocSmsOtp(AdHocSmsOtpRequest request)
+        {
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("AdHocSmsOtpRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.Token))
+            {
+                throw new ArgumentNullException("AdHocSmsOtpRequest.Token", "Token cannot be empty");
+            }
+            // process request
+            return SendOtp(request);
+        }
+
+        /// <summary>
+        /// Send one time passcode to the specified phone number via voice call.
+        /// </summary>
+        /// <param name="request">AdHocPhonecallOtpRequest</param>
+        /// <returns>SendOtpResponse</returns>
+        public SendOtpResponse SendAdHocPhonecallOtp(AdHocPhonecallOtpRequest request)
+        {
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("AdHocPhonecallOtpRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.Token))
+            {
+                throw new ArgumentNullException("AdHocPhonecallOtpRequest.Token", "Token cannot be empty");
+            }
+            // process request
+            return SendOtp(request);
+        }
+
+        /// <summary>
+        /// Send one time passcode email message to the specified email address.
+        /// </summary>
+        /// <param name="request">AdHocEmailOtpRequest</param>
+        /// <returns>SendOtpResponse</returns>
+        public SendOtpResponse SendAdHocEmailOtp(AdHocEmailOtpRequest request)
+        {
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("AdHocEmailOtpRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.Token))
+            {
+                throw new ArgumentNullException("AdHocEmailOtpRequest.Token", "Token cannot be empty");
+            }
+            // process request
+            return SendOtp(request);
+        }
+
+
         #endregion
 
         #region Push Accept Methods

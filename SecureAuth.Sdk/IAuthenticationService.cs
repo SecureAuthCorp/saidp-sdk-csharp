@@ -16,5 +16,8 @@
         SendOtpResponse SendSmsOtp(SmsOtpRequest request);
         PushAcceptResponse SendPushAccept(PushAcceptRequest request);
         BaseResponse GetPushAcceptStatus(string referenceId);
+        SendOtpResponse SendAdHocSmsOtp(AdHocSmsOtpRequest request);
+        SendOtpResponse SendAdHocPhonecallOtp(AdHocPhonecallOtpRequest request);
+        SendOtpResponse SendAdHocEmailOtp(AdHocEmailOtpRequest request);
     }
 }

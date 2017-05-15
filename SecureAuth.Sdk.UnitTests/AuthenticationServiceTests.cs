@@ -13,7 +13,9 @@ namespace SecureAuth.Sdk.UnitTests
         static string badUsername;
         static string badPassword;
         static string goodStaticPin;
-        static string badStaticPin;        
+        static string badStaticPin;
+        static string goodPhoneNumber;
+        static string goodEmailAddress;
 
         [ClassInitialize]
         public static void Init(TestContext testContext)
@@ -25,7 +27,9 @@ namespace SecureAuth.Sdk.UnitTests
             badPassword = ConfigurationManager.AppSettings["AuthSvc.badPassword"];
             goodStaticPin = ConfigurationManager.AppSettings["AuthSvc.goodStaticPin"];
             badStaticPin = ConfigurationManager.AppSettings["AuthSvc.badStaticPin"];
-            
+            goodPhoneNumber = ConfigurationManager.AppSettings["AuthSvc.goodPhoneNumber"];
+            goodEmailAddress = ConfigurationManager.AppSettings["AuthSvc.goodEmailAddress"];
+
             string secureAuthRealm = ConfigurationManager.AppSettings["SecureAuthRealmUrl"];
             string apiId = ConfigurationManager.AppSettings["ApiID"];
             string apiKey = ConfigurationManager.AppSettings["ApiKey"];
@@ -111,6 +115,54 @@ namespace SecureAuth.Sdk.UnitTests
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Invalid, res.Status);
+        }
+
+        [TestMethod]
+        public void ValidateSendAdHocSmsOtpTest()
+        {
+            AdHocSmsOtpRequest request = new AdHocSmsOtpRequest
+            {
+                Token = goodPhoneNumber,
+                UserId = goodUsername,
+                EvaluateNumber = false
+            };
+
+            SendOtpResponse response = secAuthSvc.Authenticate.SendAdHocSmsOtp(request);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Valid, response.Status);
+        }
+
+        [TestMethod]
+        public void ValidateSendAdHocPhonecallOtpTest()
+        {
+            AdHocPhonecallOtpRequest request = new AdHocPhonecallOtpRequest
+            {
+                Token = goodPhoneNumber,
+                UserId = goodUsername,
+                EvaluateNumber = false
+            };
+
+            SendOtpResponse response = secAuthSvc.Authenticate.SendAdHocPhonecallOtp(request);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Valid, response.Status);
+        }
+
+
+        [TestMethod]
+        public void ValidateSendAdHocEmailOtpTest()
+        {
+            AdHocEmailOtpRequest request = new AdHocEmailOtpRequest
+            {
+                Token = goodEmailAddress,
+                UserId = goodUsername,
+            };
+
+            SendOtpResponse response = secAuthSvc.Authenticate.SendAdHocEmailOtp(request);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Valid, response.Status);
         }
     }
 }

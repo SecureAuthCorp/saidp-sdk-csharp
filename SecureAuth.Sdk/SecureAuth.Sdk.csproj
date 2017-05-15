@@ -68,6 +68,8 @@
     <Compile Include="IUserService.cs" />
     <Compile Include="JsonSerializer.cs" />
     <Compile Include="Models\AccessHistory.cs" />
+    <Compile Include="Requests\AdHocEmailOtpRequest.cs" />
+    <Compile Include="Requests\AdHocPhonecallOtpRequest.cs" />
     <Compile Include="Models\FactorDescription.cs" />
     <Compile Include="Models\Factoring.cs" />
     <Compile Include="Models\Fingerprint.cs" />
@@ -80,6 +82,7 @@
     <Compile Include="Models\UserProfileProperty.cs" />
     <Compile Include="NumberProfileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\AdHocSmsOtpRequest.cs" />
     <Compile Include="Requests\AdHocOtpRequest.cs" />
     <Compile Include="Requests\BaseRequest.cs" />
     <Compile Include="Requests\ConfirmDfpRequest.cs" />
