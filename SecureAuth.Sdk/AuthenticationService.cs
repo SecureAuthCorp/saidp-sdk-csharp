@@ -154,33 +154,6 @@ namespace SecureAuth.Sdk
         #region Send OTP Methods
 
         /// <summary>
-        /// Send a one time passcode to the specified token value
-        /// with the select type of delivery channel
-        /// </summary>
-        /// <param name="request">AdhocOtpRequest</param>
-        /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendAdHocOtp(AdHocOtpRequest request)
-        {
-            string[] validTypes = { "sms", "call", "email" };
-
-            // sanitize request
-            if (string.IsNullOrEmpty(request.UserId))
-            {
-                throw new ArgumentNullException("AdhocOtpRequest.UserId", "User ID cannot be empty.");
-            }
-            if (string.IsNullOrEmpty(request.Token))
-            {
-                throw new ArgumentNullException("AdhocOtpRequest.Token", "Token cannot be empty.");
-            }
-            if (!validTypes.Contains(request.Type))
-            {
-                throw new ArgumentException("AdhocOtpRequest.Type", "Invalid request type.");
-            }
-
-            //process request
-            return SendOtp(request);
-        } 
-        /// <summary>
         /// Send a one time passcode to the email address associated
         /// with the email factor ID.
         /// </summary>
