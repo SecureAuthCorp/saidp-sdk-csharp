@@ -42,23 +42,69 @@ namespace SecureAuth.Sdk.UnitTests
                 Fonts = "Agency FB,Aharoni,Algerian,Andalus,Angsana New,AngsanaUPC",
                 Plugins = "ActiveTouch General Plugin Container:ActiveTouch General Plugin Container Version 105",
                 TimeZone = "America/Los_Angeles",
-                Video = "1920x1080x24",
                 LocalStorage = false,
                 SessionStorage = false,
-                IeUserDate = false,
-                CookieEnabled = true,
-                UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0",
-                Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                AcceptCharSet = "utf-8",
-                AcceptEncoding = "gzip, deflate",
-                AcceptLanguage = "en-US,en;q=0.5",
+                CookieSupport = true,
+                Language = "en-US,en;q=0.5",
+                UaBrowser = new UaBrowser
+                {
+                    Name = "Chrome",
+                    Version = "61.0.3163.79",
+                    Major = "61",
+                },
+                UaString = "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36",
+                UaDevice = new UaDevice
+                {
+                    Model = null,
+                    Type = null,
+                    Vendor = null,
+                },
+                UaEngine = new UaEngine
+                {
+                    Name = "WebKit",
+                    Version = "537.36",
+                },
+                UaOs = new UaOs
+                {
+                    Name = "Windows",
+                    Version = "8.1",
+                },
+                UaCpu = new UaCpu
+                {
+                    Architecture = "amd64",
+                },
+                UaPlatform = "Win32",
+                ColorDepth = 16,
+                PixelRatio = 1,
+                ScreenResolution = "800x600",
+                AvailableScreenResolution = "1024x768",
+                TimeZoneOffset = 240,
+                IndexedDb = true,
+                AddBehavior = false,
+                OpenDatabase = true,
+                CpuClass = null,
+                Platform = "Win32",
+                DoNotTrack = null,
+                Canvas = "255438976",
+                WebGl = "491924686",
+                AdBlock = false,
+                UserTamperLanguage = false,
+                UserTamperScreenResolution = false,
+                UserTamperOS = false,
+                UserTamperBrowser = false,
+                TouchSupport = new TouchSupport
+                {
+                    MaxTouchPoints = 0,
+                    TouchEvent = false,
+                    TouchStart = false,
+                },
             };
 
             _validateDfpRequest = new ValidateDfpRequest
             {
                 UserId = goodUsername1,
                 HostAddress = "172.217.3.110",
-                Fingerprint = fingerprint,
+                Fingerprint = new FingerprintWrapper { Fingerprint = fingerprint },
             };
 
             _scoreDfpRequest = new ScoreDfpRequest
@@ -377,14 +423,8 @@ Parameter name: ValidateDfpRequest.Fingerprint", ex.Message);
         public void SaveDfpTest()
         {
             // Arrange
-            _validateDfpRequest.UserId = goodUsername2;
-
-            DfpResponse res = secAuthSvc.DeviceFingerprint.ValidateDfp(_validateDfpRequest);
-
-            _saveDfpRequest.UserId = _validateDfpRequest.UserId;
-
             // Act
-            res = secAuthSvc.DeviceFingerprint.SaveDfp(_saveDfpRequest);
+            DfpResponse res = secAuthSvc.DeviceFingerprint.SaveDfp(_saveDfpRequest);
 
             // Assert
             Assert.IsTrue(res.IsSucess());

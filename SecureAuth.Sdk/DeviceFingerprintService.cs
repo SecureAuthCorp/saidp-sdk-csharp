@@ -43,7 +43,7 @@ namespace SecureAuth.Sdk
             {
                 throw new ArgumentNullException("ValidateDfpRequest.Fingerprint", "Fingerprint cannot be empty.");
             }
-            if (string.IsNullOrEmpty(request.Fingerprint.UserAgent))
+            if (string.IsNullOrWhiteSpace(request.Fingerprint.Fingerprint.UaString))
             {
                 throw new ArgumentNullException("ValidateDfpRequest.Fingerprint.UserAgent", "User-Agent cannot be empty.");
             }
@@ -92,7 +92,7 @@ namespace SecureAuth.Sdk
             {
                 throw new ArgumentNullException("ValidateDfpRequest.Fingerprint", "Fingerprint cannot be empty.");
             }
-            if (string.IsNullOrEmpty(request.Fingerprint.UserAgent))
+            if (string.IsNullOrWhiteSpace(request.Fingerprint.UaString))
             {
                 throw new ArgumentNullException("ValidateDfpRequest.Fingerprint.UserAgent", "User-Agent cannot be empty.");
             }
@@ -120,7 +120,7 @@ namespace SecureAuth.Sdk
             {
                 throw new ArgumentNullException("ValidateDfpRequest.Fingerprint", "Fingerprint cannot be empty.");
             }
-            if (string.IsNullOrEmpty(request.Fingerprint.UserAgent))
+            if (string.IsNullOrWhiteSpace(request.Fingerprint.UaString))
             {
                 throw new ArgumentNullException("ValidateDfpRequest.Fingerprint.UserAgent", "User-Agent cannot be empty.");
             }

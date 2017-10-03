@@ -13,11 +13,10 @@ namespace SecureAuth.Sdk
         public string HostAddress { get; set; }
 
         [DataMember(Name = "fingerprint", EmitDefaultValue = false)]
-        public Fingerprint Fingerprint { get; set; }
+        public FingerprintWrapper Fingerprint { get; set; }
 
         public ValidateDfpRequest()
         {
-            
         }
 
         public ValidateDfpRequest(string fpJson)
