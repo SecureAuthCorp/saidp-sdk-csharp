@@ -19,7 +19,7 @@ namespace SecureAuth.Sdk
 
         public SaveDfpRequest(string fpJson)
         {
-            this.Fingerprint = JsonSerializer.Deserialize<ValidateDfpRequest>(fpJson).Fingerprint;
+            this.Fingerprint = JsonSerializer.Deserialize<SaveDfpRequest>(fpJson).Fingerprint;
         }
     }
 }

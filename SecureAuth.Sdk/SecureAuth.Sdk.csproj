@@ -68,6 +68,13 @@
     <Compile Include="IUserService.cs" />
     <Compile Include="JsonSerializer.cs" />
     <Compile Include="Models\AccessHistory.cs" />
+    <Compile Include="Models\FingerprintWrapper.cs" />
+    <Compile Include="Models\TouchSupport.cs" />
+    <Compile Include="Models\UaBrowser.cs" />
+    <Compile Include="Models\UaCpu.cs" />
+    <Compile Include="Models\UaDevice.cs" />
+    <Compile Include="Models\UaEngine.cs" />
+    <Compile Include="Models\UaOs.cs" />
     <Compile Include="Requests\AdHocEmailOtpRequest.cs" />
     <Compile Include="Requests\AdHocPhonecallOtpRequest.cs" />
     <Compile Include="Models\FactorDescription.cs" />
