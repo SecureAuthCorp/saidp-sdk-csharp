@@ -98,6 +98,7 @@
     <Compile Include="Requests\ChangePasswordRequest.cs" />
     <Compile Include="Requests\GroupAssociateRequest.cs" />
     <Compile Include="Requests\NumberProfileRequest.cs" />
+    <Compile Include="Requests\OathTokenRequest.cs" />
     <Compile Include="Requests\ResetPasswordRequest.cs" />
     <Compile Include="Requests\SaveDfpRequest.cs" />
     <Compile Include="Requests\ScoreDfpRequest.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Responses\GetProfileResponse.cs" />
     <Compile Include="Responses\GroupAssociateResponse.cs" />
     <Compile Include="Responses\NumberProfileResponse.cs" />
+    <Compile Include="Responses\OathTokenResponse.cs" />
     <Compile Include="Responses\PushAcceptResponse.cs" />
     <Compile Include="Responses\GetFactorsResponse.cs" />
     <Compile Include="Responses\IpRiskResponse.cs" />

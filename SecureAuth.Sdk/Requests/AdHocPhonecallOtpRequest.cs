@@ -21,6 +21,12 @@ namespace SecureAuth.Sdk
             Token = phoneNumber;
         }
 
+        public AdHocPhonecallOtpRequest(string userId, string phoneNumber, string domain = "")
+            : base(userId, "call", domain)
+        {
+            Token = phoneNumber;
+        }
+
         [DataMember(Name = "token")]
         public string Token { get; set; }
 

@@ -18,5 +18,11 @@ namespace SecureAuth.Sdk
         {
             this.Token = token;
         }
+
+        public ValidatePinRequest(string userId, string token, string domain = "")
+            : base(userId, "pin", domain)
+        {
+            this.Token = token;
+        }
     }
 }

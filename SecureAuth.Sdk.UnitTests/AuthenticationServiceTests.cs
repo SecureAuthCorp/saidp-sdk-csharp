@@ -16,6 +16,8 @@ namespace SecureAuth.Sdk.UnitTests
         static string badStaticPin;
         static string goodPhoneNumber;
         static string goodEmailAddress;
+        static string goodDomain;
+        static string badDomain;
 
         [ClassInitialize]
         public static void Init(TestContext testContext)
@@ -29,6 +31,8 @@ namespace SecureAuth.Sdk.UnitTests
             badStaticPin = ConfigurationManager.AppSettings["AuthSvc.badStaticPin"];
             goodPhoneNumber = ConfigurationManager.AppSettings["AuthSvc.goodPhoneNumber"];
             goodEmailAddress = ConfigurationManager.AppSettings["AuthSvc.goodEmailAddress"];
+            goodDomain = ConfigurationManager.AppSettings["AuthSvc.goodDomain"];
+            badDomain = ConfigurationManager.AppSettings["AuthSvc.badDomain"];
 
             string secureAuthRealm = ConfigurationManager.AppSettings["SecureAuthRealmUrl"];
             string apiId = ConfigurationManager.AppSettings["ApiID"];
@@ -53,6 +57,19 @@ namespace SecureAuth.Sdk.UnitTests
         }
 
         [TestMethod]
+        public void ValidateGoodUserIdWithDomainTest()
+        {
+            // Arrange
+            ValidateUserIdRequest req = new ValidateUserIdRequest(goodUsername, goodDomain);
+
+            // Act
+            BaseResponse res = secAuthSvc.Authenticate.ValidateUserId(req);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Found, res.Status);
+        }
+
+        [TestMethod]
         public void ValidateBadUserIdTest()
         {
             // Arrange
@@ -65,6 +82,19 @@ namespace SecureAuth.Sdk.UnitTests
             Assert.AreNotEqual(Constants.ResponseStatus.Found, res.Status);
         }
 
+        [TestMethod]
+        public void ValidateBadDomainTest()
+        {
+            // Arrange
+            ValidateUserIdRequest req = new ValidateUserIdRequest(goodUsername, badDomain);
+
+            // Act
+            BaseResponse res = secAuthSvc.Authenticate.ValidateUserId(req);
+
+            // Assert
+            Assert.AreNotEqual(Constants.ResponseStatus.Found, res.Status);
+        }
+        
         [TestMethod]
         public void ValidateGoodPasswordTest()
         {

@@ -147,7 +147,7 @@ namespace SecureAuth.Sdk
             }
 
             //process request
-            return this._apiClient.Post<BaseResponse>("/api/v1/validateotp", request);
+            return this._apiClient.Post<BaseResponse>("/api/v1/otp/validate", request);
         }
         #endregion
 

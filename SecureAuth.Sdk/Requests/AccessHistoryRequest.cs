@@ -17,5 +17,11 @@ namespace SecureAuth.Sdk
         {
             this.IpAddress = ipAddress;
         }
+
+        public AccessHistoryRequest(string userId, string ipAddress, string domain = "")
+            : base(userId, "", domain)
+        {
+            this.IpAddress = ipAddress;
+        }
     }
 }

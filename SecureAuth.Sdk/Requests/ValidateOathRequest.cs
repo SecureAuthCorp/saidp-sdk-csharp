@@ -22,5 +22,12 @@ namespace SecureAuth.Sdk
             this.Token = token;
             this.FactorId = factorId;
         }
+
+        public ValidateOathRequest(string userId, string token, string factorId, string domain = "")
+            : base(userId, "oath", domain)
+        {
+            this.Token = token;
+            this.FactorId = factorId;
+        }
     }
 }

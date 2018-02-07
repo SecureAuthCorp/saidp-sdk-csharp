@@ -16,8 +16,21 @@ namespace SecureAuth.Sdk
             this.Type = "sms";
         }
 
+        public SmsOtpRequest(string userId, string factorId)
+            : base(userId, "sms")
+        {
+            this.FactorId = factorId;            
+        }
+
         public SmsOtpRequest(string userId, string factorId, bool evaluateNumber)
             : base(userId, "sms")
+        {
+            this.FactorId = factorId;
+            this.EvaluateNumber = evaluateNumber.ToString();
+        }
+
+        public SmsOtpRequest(string userId, string factorId, bool evaluateNumber, string domain = "")
+            : base(userId, "sms", domain)
         {
             this.FactorId = factorId;
             this.EvaluateNumber = evaluateNumber.ToString();

@@ -17,8 +17,21 @@ namespace SecureAuth.Sdk
             this.Type = "call";
         }
 
+        public PhonecallOtpRequest(string userId, string factorId)
+            : base(userId, "call")
+        {
+            this.FactorId = factorId;            
+        }
+
         public PhonecallOtpRequest(string userId, string factorId, bool evaluateNumber)
             : base(userId, "call")
+        {
+            this.FactorId = factorId;
+            this.EvaluateNumber = evaluateNumber.ToString();
+        }
+
+        public PhonecallOtpRequest(string userId, string factorId, bool evaluateNumber, string domain = "")
+            : base(userId, "call", domain)
         {
             this.FactorId = factorId;
             this.EvaluateNumber = evaluateNumber.ToString();

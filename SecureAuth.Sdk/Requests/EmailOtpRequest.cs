@@ -18,5 +18,11 @@ namespace SecureAuth.Sdk
         {
             this.FactorId = factorId;
         }
+
+        public EmailOtpRequest(string userId, string factorId, string domain = "")
+            : base(userId, "email", domain)
+        {
+            this.FactorId = factorId;
+        }
     }
 }
