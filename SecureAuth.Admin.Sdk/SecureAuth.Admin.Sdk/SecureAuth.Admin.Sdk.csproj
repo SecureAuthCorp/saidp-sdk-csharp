@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{710C6B5A-DAA2-45FC-B79F-3BA55C06C385}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SecureAuth.Admin.Sdk</RootNamespace>
+    <AssemblyName>SecureAuth.Admin.Sdk</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiClient.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="HashTool.cs" />
+    <Compile Include="HmacBasicAuthenticationHelper.cs" />
+    <Compile Include="HmacSigningHandler.cs" />
+    <Compile Include="IConfigService.cs" />
+    <Compile Include="IRealmServiceV2.cs" />
+    <Compile Include="IVersionService.cs" />
+    <Compile Include="IRealmService.cs" />
+    <Compile Include="ISecureAuthAdminService.cs" />
+    <Compile Include="JsonCreationConverter.cs" />
+    <Compile Include="JsonSerializer.cs" />
+    <Compile Include="Models\AdaptiveAuth\AdaptiveAuthBase.cs" />
+    <Compile Include="Models\AdaptiveAuth\AdaptiveAuthentication.cs" />
+    <Compile Include="Models\AdaptiveAuth\AdaptiveAuthUserGroupSetting.cs" />
+    <Compile Include="Models\AdaptiveAuth\GeoVelocity.cs" />
+    <Compile Include="Models\AdaptiveAuth\IpCountrySetting.cs" />
+    <Compile Include="Models\AdaptiveAuth\IpReputationThreatData.cs" />
+    <Compile Include="Models\AdaptiveAuth\UserRisk.cs" />
+    <Compile Include="Models\AdaptiveAuth\v2\AdaptiveAuthentication.cs" />
+    <Compile Include="Models\AdaptiveAuth\v2\UserRisk.cs" />
+    <Compile Include="Models\AdaptiveAuth\v2\UserRiskProvider.cs" />
+    <Compile Include="Models\Api\ApiSetting.cs" />
+    <Compile Include="Models\AssemblyVersion.cs" />
+    <Compile Include="Models\Data\AzureDataStore.cs" />
+    <Compile Include="Models\Data\CarrierCountry.cs" />
+    <Compile Include="Models\Data\CyberArkVault.cs" />
+    <Compile Include="Models\Data\Data.cs" />
+    <Compile Include="Models\Data\DataStoreBase.cs" />
+    <Compile Include="Models\Data\LdapDataStore.cs" />
+    <Compile Include="Models\Data\Membership.cs" />
+    <Compile Include="Models\Data\OracleDataStore.cs" />
+    <Compile Include="Models\Data\Profile.cs" />
+    <Compile Include="Models\Data\ProfileField.cs" />
+    <Compile Include="Models\Data\RestDataStore.cs" />
+    <Compile Include="Models\Data\SqlDataStore.cs" />
+    <Compile Include="Models\Data\WebServiceDataStore.cs" />
+    <Compile Include="Models\Logs\LogSetting.cs" />
+    <Compile Include="Models\Logs\SyslogSetting.cs" />
+    <Compile Include="Models\MultiFactor\EmailSetting.cs" />
+    <Compile Include="Models\MultiFactor\HelpDeskSetting.cs" />
+    <Compile Include="Models\MultiFactor\HelpDeskSettings.cs" />
+    <Compile Include="Models\MultiFactor\KnowledgeBasedSetting.cs" />
+    <Compile Include="Models\MultiFactor\MultiFactor.cs" />
+    <Compile Include="Models\MultiFactor\MultiFactorSetting.cs" />
+    <Compile Include="Models\MultiFactor\Oath.cs" />
+    <Compile Include="Models\MultiFactor\PhoneBlocking.cs" />
+    <Compile Include="Models\MultiFactor\PhoneCarrier.cs" />
+    <Compile Include="Models\MultiFactor\PhoneSetting.cs" />
+    <Compile Include="Models\MultiFactor\PinSetting.cs" />
+    <Compile Include="Models\MultiFactor\PushNotification.cs" />
+    <Compile Include="Models\MultiFactor\YubiKeySettings.cs" />
+    <Compile Include="Models\Overview\Email.cs" />
+    <Compile Include="Models\Overview\Overview.cs" />
+    <Compile Include="Models\Overview\Smtp.cs" />
+    <Compile Include="Models\PostAuth\CustomSetting.cs" />
+    <Compile Include="Models\PostAuth\ExtendedSamlAttribute.cs" />
+    <Compile Include="Models\PostAuth\PostAuthCookie.cs" />
+    <Compile Include="Models\PostAuth\PostAuthentication.cs" />
+    <Compile Include="Models\PostAuth\PostAuthFormsAuthentication.cs" />
+    <Compile Include="Models\PostAuth\PostAuthMachineKey.cs" />
+    <Compile Include="Models\PostAuth\RedirectBase.cs" />
+    <Compile Include="Models\PostAuth\SamlSetting.cs" />
+    <Compile Include="Models\PostAuth\SamlWsFedAttribute.cs" />
+    <Compile Include="Models\PostAuth\UserIdMapping.cs" />
+    <Compile Include="Models\PostAuth\WsFedSamlAssertion.cs" />
+    <Compile Include="Models\PostAuth\WsFedSetting.cs" />
+    <Compile Include="Models\PostAuth\WsTrustEndpoint.cs" />
+    <Compile Include="Models\PostAuth\WsTrustEndpointConfiguration.cs" />
+    <Compile Include="Models\PostAuth\WsTrustRequestBlocking.cs" />
+    <Compile Include="Models\Realm.cs" />
+    <Compile Include="Models\Workflow\BrowserProfileSetting.cs" />
+    <Compile Include="Models\Workflow\CustomIdentityConsumer.cs" />
+    <Compile Include="Models\Workflow\DeviceRecognitionMethod.cs" />
+    <Compile Include="Models\Workflow\FbaWebService.cs" />
+    <Compile Include="Models\Workflow\LoginScreen.cs" />
+    <Compile Include="Models\Workflow\MobileProfileSetting.cs" />
+    <Compile Include="Models\Workflow\PasswordThrottle.cs" />
+    <Compile Include="Models\Workflow\ProfileSetting.cs" />
+    <Compile Include="Models\Workflow\Redirect.cs" />
+    <Compile Include="Models\Workflow\SessionTimeout.cs" />
+    <Compile Include="Models\Workflow\TerminationPoint.cs" />
+    <Compile Include="Models\Workflow\TokenPersistence.cs" />
+    <Compile Include="Models\Workflow\Workflow.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ConfigService.cs" />
+    <Compile Include="RealmServiceV2.cs" />
+    <Compile Include="Requests\AdaptiveAuthRequestV2.cs" />
+    <Compile Include="Requests\UserRiskProviderRequest.cs" />
+    <Compile Include="Responses\TestConnectionResponse.cs" />
+    <Compile Include="VersionService.cs" />
+    <Compile Include="RealmService.cs" />
+    <Compile Include="Requests\BaseRequest.cs" />
+    <Compile Include="Requests\AdaptiveAuthRequest.cs" />
+    <Compile Include="Requests\MultifactorRequest.cs" />
+    <Compile Include="Requests\PostAuthRequest.cs" />
+    <Compile Include="Requests\LogSettingRequest.cs" />
+    <Compile Include="Requests\ApiSettingRequest.cs" />
+    <Compile Include="Requests\WorkflowRequest.cs" />
+    <Compile Include="Requests\DataGlobalAuxRequest.cs" />
+    <Compile Include="Requests\DataProfileRequest.cs" />
+    <Compile Include="Requests\DataMembershipRequest.cs" />
+    <Compile Include="Requests\OverviewRequest.cs" />
+    <Compile Include="Responses\BaseResponse.cs" />
+    <Compile Include="Responses\PhoneCarrierResponse.cs" />
+    <Compile Include="Responses\RealmApiResponse.cs" />
+    <Compile Include="Responses\RealmResponse.cs" />
+    <Compile Include="Responses\VersionResponse.cs" />
+    <Compile Include="SecureAuthAdminService.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
