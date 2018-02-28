@@ -18,5 +18,11 @@ namespace SecureAuth.Sdk
         {
             this.Parameters = parameters;
         }
+
+        public AdaptiveAuthRequest(string userId, Dictionary<string, string> parameters, string domain = "")
+            : base(userId, "", domain)
+        {
+            this.Parameters = parameters;
+        }
     }
 }

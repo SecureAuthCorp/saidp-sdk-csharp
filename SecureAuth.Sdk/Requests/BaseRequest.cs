@@ -5,6 +5,9 @@ namespace SecureAuth.Sdk
     [DataContract]
     public class BaseRequest
     {
+        [DataMember(Name = "domain")]
+        public string Domain { get; set; }
+
         [DataMember(Name = "user_id", EmitDefaultValue = false)]
         public string UserId { get; set; }
 
@@ -15,10 +18,11 @@ namespace SecureAuth.Sdk
         {
         }
 
-        public BaseRequest(string userId, string type)
+        public BaseRequest(string userId, string type, string domain = "")
         {
             this.UserId = userId;
             this.Type = type;
+            this.Domain = string.IsNullOrEmpty(Domain) ? string.Empty : Domain;
         }
     }
 }

@@ -21,6 +21,12 @@ namespace SecureAuth.Sdk
             Token = emailAddress;
         }
 
+        public AdHocEmailOtpRequest(string userId, string emailAddress, string domain = "")
+            : base(userId, "email", domain)
+        {
+            Token = emailAddress;
+        }
+
         [DataMember(Name = "token")]
         public string Token { get; set; }
     }

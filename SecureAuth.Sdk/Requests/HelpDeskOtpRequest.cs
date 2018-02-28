@@ -18,5 +18,11 @@ namespace SecureAuth.Sdk
         {
             this.FactorId = factorId;
         }
+
+        public HelpDeskOtpRequest(string userId, string factorId, string domain = "")
+            : base(userId, "help_desk", domain)
+        {
+            this.FactorId = factorId;
+        }
     }
 }

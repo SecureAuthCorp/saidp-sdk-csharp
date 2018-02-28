@@ -18,5 +18,11 @@ namespace SecureAuth.Sdk
         {
             this.Token = token;
         }
+
+        public ValidatePasswordRequest(string userId, string token, string domain = "")
+            : base(userId, "password", domain)
+        {
+            this.Token = token;
+        }
     }
 }

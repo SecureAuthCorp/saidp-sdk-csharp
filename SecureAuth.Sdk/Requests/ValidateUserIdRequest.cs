@@ -13,5 +13,9 @@ namespace SecureAuth.Sdk
         public ValidateUserIdRequest(string userId) : base(userId, "user_id")
         {
         }
+
+        public ValidateUserIdRequest(string userId, string domain = "") : base(userId, "user_id", domain)
+        {
+        }
     }
 }

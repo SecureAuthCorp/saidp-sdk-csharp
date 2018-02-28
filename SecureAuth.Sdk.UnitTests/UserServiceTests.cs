@@ -21,6 +21,8 @@ namespace SecureAuth.Sdk.UnitTests
         static string newUserId;
         static string groupName1;
         static string groupName2;
+        static string goodDomain;
+        static string badDomain;
 
         [ClassInitialize]
         public static void Init(TestContext testContext)
@@ -36,6 +38,8 @@ namespace SecureAuth.Sdk.UnitTests
             newUserId = ConfigurationManager.AppSettings["UserSvc.newUserId"];
             groupName1 = ConfigurationManager.AppSettings["UserSvc.groupName1"];
             groupName2 = ConfigurationManager.AppSettings["UserSvc.groupName2"];
+            goodDomain = ConfigurationManager.AppSettings["AuthSvc.goodDomain"];
+            badDomain = ConfigurationManager.AppSettings["AuthSvc.badDomain"];
 
             string secureAuthRealm = ConfigurationManager.AppSettings["SecureAuthRealmUrl"];
             string apiId = ConfigurationManager.AppSettings["ApiID"];
@@ -99,6 +103,7 @@ namespace SecureAuth.Sdk.UnitTests
         {
             // Arrange
             CreateUserRequest req = new CreateUserRequest();
+            req.Domain = goodDomain;
             req.UserId = newUserId;
             req.Password = newPassword2;
             req.Properties.Add("firstName", newFirstName);
@@ -113,7 +118,7 @@ namespace SecureAuth.Sdk.UnitTests
 
             // Validate password for new user
             // Arrange
-            ValidatePasswordRequest req2 = new ValidatePasswordRequest(req.UserId, req.Password);
+            ValidatePasswordRequest req2 = new ValidatePasswordRequest(req.UserId, req.Password, req.Domain);
 
             // Act
             BaseResponse res2 = secAuthSvc.Authenticate.ValidatePassword(req2);
@@ -140,7 +145,34 @@ namespace SecureAuth.Sdk.UnitTests
 
             // Validate new password
             // Arrange
-            ValidatePasswordRequest vReq = new ValidatePasswordRequest(goodUsername, newPassword1);
+            ValidatePasswordRequest vReq = new ValidatePasswordRequest(goodUsername, newPassword1, goodDomain);
+
+            // Act
+            BaseResponse vRes = secAuthSvc.Authenticate.ValidatePassword(vReq);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Valid, vRes.Status);
+        }
+
+        [TestMethod]
+        public void ChangePasswordWithDomainTest()
+        {
+            // Arrange
+            ChangePasswordRequest req = new ChangePasswordRequest
+            {
+                CurrentPassword = currentPassword,
+                NewPassword = newPassword1
+            };
+
+            // Act
+            BaseResponse res = secAuthSvc.User.ChangePassword(goodUsername, req, goodDomain);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
+
+            // Validate new password
+            // Arrange
+            ValidatePasswordRequest vReq = new ValidatePasswordRequest(goodUsername, newPassword1, goodDomain);
 
             // Act
             BaseResponse vRes = secAuthSvc.Authenticate.ValidatePassword(vReq);
@@ -166,7 +198,33 @@ namespace SecureAuth.Sdk.UnitTests
 
             // Validate new password
             // Arrange
-            ValidatePasswordRequest vReq = new ValidatePasswordRequest(goodUsername, newPassword2);
+            ValidatePasswordRequest vReq = new ValidatePasswordRequest(goodUsername, newPassword2, goodDomain);
+
+            // Act
+            BaseResponse vRes = secAuthSvc.Authenticate.ValidatePassword(vReq);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Valid, vRes.Status);
+        }
+
+        [TestMethod]
+        public void ResetPasswordWithDomainTest()
+        {
+            // Arrange
+            ResetPasswordRequest req = new ResetPasswordRequest
+            {
+                NewPassword = newPassword2
+            };
+
+            // Act
+            BaseResponse res = secAuthSvc.User.ResetPassword(goodUsername, req, goodDomain);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
+
+            // Validate new password
+            // Arrange
+            ValidatePasswordRequest vReq = new ValidatePasswordRequest(goodUsername, newPassword2, goodDomain);
 
             // Act
             BaseResponse vRes = secAuthSvc.Authenticate.ValidatePassword(vReq);
@@ -186,6 +244,16 @@ namespace SecureAuth.Sdk.UnitTests
         }
 
         [TestMethod]
+        public void AddGroupToUserWithDomainTest()
+        {
+            // Act
+            BaseResponse res = secAuthSvc.User.AddGroupToUser(goodUsername, groupName1, goodDomain);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
+        }
+
+        [TestMethod]
         public void AddMultipleGroupsToUserTest()
         {
             // Arrange
@@ -195,6 +263,21 @@ namespace SecureAuth.Sdk.UnitTests
 
             // Act
             BaseResponse res = secAuthSvc.User.AddGroupsToUser(goodUsername, req);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
+        }
+
+        [TestMethod]
+        public void AddMultipleGroupsToUserWithDomainTest()
+        {
+            // Arrange
+            GroupAssociateRequest req = new GroupAssociateRequest();
+            req.GroupNames.Add(groupName1);
+            req.GroupNames.Add(groupName2);
+
+            // Act
+            BaseResponse res = secAuthSvc.User.AddGroupsToUser(goodUsername, req, goodDomain);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
