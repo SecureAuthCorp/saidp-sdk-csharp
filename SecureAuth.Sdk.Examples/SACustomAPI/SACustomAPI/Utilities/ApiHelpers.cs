@@ -142,10 +142,10 @@ namespace SACustomAPI.Utilities
             {
                 dfpRequest.FingerprintId = fpId;
             }
-            dfpRequest.Fingerprint.Accept = HttpContext.Current.Request.Headers.Get("Accept");
-            dfpRequest.Fingerprint.AcceptCharSet = HttpContext.Current.Request.Headers.Get("Accept-Charset");
-            dfpRequest.Fingerprint.AcceptEncoding = HttpContext.Current.Request.Headers.Get("Accept-Encoding");
-            dfpRequest.Fingerprint.AcceptLanguage = HttpContext.Current.Request.Headers.Get("Accept-Language");
+            //dfpRequest.Fingerprint.Accept = HttpContext.Current.Request.Headers.Get("Accept");
+            //dfpRequest.Fingerprint.AcceptCharSet = HttpContext.Current.Request.Headers.Get("Accept-Charset");
+            //dfpRequest.Fingerprint.AcceptEncoding = HttpContext.Current.Request.Headers.Get("Accept-Encoding");
+            //dfpRequest.Fingerprint.AcceptLanguage = HttpContext.Current.Request.Headers.Get("Accept-Language");
             return dfpRequest;
         }
 
