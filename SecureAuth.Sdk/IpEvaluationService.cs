@@ -2,7 +2,11 @@
 
 namespace SecureAuth.Sdk
 {
+<<<<<<< HEAD
     public class IpEvaluationService
+=======
+    public class IpEvaluationService : IIpEvaluationService
+>>>>>>> 767840d... updates for .net core and language helper function
     {
         private readonly ApiClient _apiClient;
 

@@ -22,5 +22,14 @@ namespace SecureAuth.Sdk
         {
             this.FactorId = factorId;
         }
+<<<<<<< HEAD
+=======
+
+        public PushAcceptRequest(string userId, string factorId, string domain = "")
+            : base(userId, "push_accept", domain)
+        {
+            this.FactorId = factorId;
+        }
+>>>>>>> 767840d... updates for .net core and language helper function
     }
 }

@@ -18,5 +18,14 @@ namespace SecureAuth.Sdk
         {
             this.IpAddress = ipAddress;
         }
+<<<<<<< HEAD
+=======
+
+        public IpRiskRequest(string userId, string ipAddress, string domain = "")
+            : base(userId, "risk", domain)
+        {
+            this.IpAddress = ipAddress;
+        }
+>>>>>>> 767840d... updates for .net core and language helper function
     }
 }

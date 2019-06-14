@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
@@ -5,6 +6,12 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureAuth.Sdk", "SecureAuth.Sdk\SecureAuth.Sdk.csproj", "{2D72D9F4-321F-4720-BCF3-BB254C08CBB7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureAuth.Sdk.UnitTests", "SecureAuth.Sdk.UnitTests\SecureAuth.Sdk.UnitTests.csproj", "{B5995A75-CB46-408E-85E4-20EFD1952CF0}"
+=======
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureAuth.Sdk", "SecureAuth.Sdk\SecureAuth.Sdk.csproj", "{A8262943-2F18-4F12-811B-B77690CC09E2}"
+>>>>>>> 767840d... updates for .net core and language helper function
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,6 +19,7 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+<<<<<<< HEAD
 		{2D72D9F4-321F-4720-BCF3-BB254C08CBB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2D72D9F4-321F-4720-BCF3-BB254C08CBB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D72D9F4-321F-4720-BCF3-BB254C08CBB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -23,5 +31,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+=======
+		{A8262943-2F18-4F12-811B-B77690CC09E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8262943-2F18-4F12-811B-B77690CC09E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8262943-2F18-4F12-811B-B77690CC09E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8262943-2F18-4F12-811B-B77690CC09E2}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> 767840d... updates for .net core and language helper function
 	EndGlobalSection
 EndGlobal

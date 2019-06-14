@@ -5,6 +5,7 @@ namespace SecureAuth.Sdk
     [DataContract(Name = "factoring")]
     public class Factoring
     {
+<<<<<<< HEAD
         [DataMember(Name = "country_risk_factor", EmitDefaultValue = false)]
         public double? CountryRiskFactor { get; set; }
         
@@ -49,5 +50,18 @@ namespace SecureAuth.Sdk
         
         [DataMember(Name = "search_volume_factor", EmitDefaultValue = false)]
         public double? SearchVolumeFactor { get; set; }
+=======
+        [DataMember(Name = "latitude", EmitDefaultValue = false)]
+        public double? Latitude { get; set; }
+
+        [DataMember(Name = "longitude", EmitDefaultValue = false)]
+        public double? Longitude { get; set; }
+
+        [DataMember(Name = "threatType", EmitDefaultValue = false)]
+        public int? ThreatType { get; set; }
+
+        [DataMember(Name = "threatCategory", EmitDefaultValue = false)]
+        public int? ThreatCategory { get; set; }
+>>>>>>> 767840d... updates for .net core and language helper function
     }
 }
