@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace SecureAuth.Sdk
@@ -54,6 +55,8 @@ namespace SecureAuth.Sdk
             // Process HTTP request
             using (HttpClient client = new HttpClient(new HmacSigningHandler(this.AppId, this.AppKey)))
             {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 var response = client.GetAsync(requestUrl).Result;
                 statusCode = response.StatusCode;
                 rawResult = response.Content.ReadAsStringAsync().Result;
@@ -84,6 +87,8 @@ namespace SecureAuth.Sdk
                     rawRequest = JsonSerializer.Serialize(request);
                 }
                 HttpContent content = new StringContent(rawRequest, Encoding.UTF8, "application/json");
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 var response = client.PostAsync(requestUrl, content).Result;
                 statusCode = response.StatusCode;
 
