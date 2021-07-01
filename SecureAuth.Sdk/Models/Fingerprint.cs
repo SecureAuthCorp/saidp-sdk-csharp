@@ -54,7 +54,7 @@ namespace SecureAuth.Sdk.Models
         public int ColorDepth { get; set; }
 
         [DataMember(Name = "pixelRatio", EmitDefaultValue = false)]
-        public int PixelRatio { get; set; }
+        public double PixelRatio { get; set; }
 
         [DataMember(Name = "screenResolution", EmitDefaultValue = false)]
         public string ScreenResolution { get; set; }

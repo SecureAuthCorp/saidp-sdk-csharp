@@ -24,7 +24,7 @@ namespace SecureAuth.Sdk
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            request.Headers.Date = new DateTimeOffset(DateTime.Now, DateTime.Now - DateTime.UtcNow);
+            request.Headers.Date = DateTimeOffset.UtcNow;
             var hash = HmacBasicAuthenticationHelper.BuildAuthorizationHeaderParameter(AppId, AppKey, request);
 
             var headerValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format("{0}:{1}", AppId, hash)));

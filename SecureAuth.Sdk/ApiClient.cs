@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace SecureAuth.Sdk
@@ -61,6 +62,8 @@ namespace SecureAuth.Sdk
             // Process HTTP request
             using (HttpClient client = new HttpClient(handler))
             {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 var response = client.GetAsync(requestUrl).Result;
                 statusCode = response.StatusCode;
                 
@@ -133,6 +136,8 @@ namespace SecureAuth.Sdk
                     rawRequest = JsonSerializer.Serialize(request);
                 }           
                 HttpContent content = new StringContent(rawRequest, Encoding.UTF8, "application/json");
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 var response = client.PostAsync(requestUrl, content).Result;
                 statusCode = response.StatusCode;
 
