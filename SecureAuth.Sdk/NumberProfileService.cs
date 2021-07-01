@@ -6,6 +6,7 @@ namespace SecureAuth.Sdk
     public class NumberProfileService : INumberProfileService
     {
         private readonly ApiClient _apiClient;
+        private string apiVersion = "v2";
 
         protected internal NumberProfileService(ApiClient apiClient)
         {
@@ -45,7 +46,7 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("phoneNumber", "Phone Number cannot be empty.");
             }
 
-            return this._apiClient.Post<NumberProfileResponse>("/api/v1/numberprofile", request);
+            return this._apiClient.Post<NumberProfileResponse>("/api/" + apiVersion + "/numberprofile", request);
         }
 
         /// <summary>
@@ -98,7 +99,7 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("carrierinfo", "CarrierInfo cannot contain empty properties.");
             }
 
-            return this._apiClient.Put<BaseResponse>("/api/v1/numberprofile", request);
+            return this._apiClient.Put<BaseResponse>("/api/" + apiVersion + "/numberprofile", request);
         }
 
         private bool ValidateCarrierUpdateRequest(object carrier)

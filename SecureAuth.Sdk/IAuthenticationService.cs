@@ -1,4 +1,6 @@
-﻿namespace SecureAuth.Sdk
+﻿using System.Net;
+
+namespace SecureAuth.Sdk
 {
     public interface IAuthenticationService
     {
@@ -14,9 +16,16 @@
         SendOtpResponse SendPushOtp(PushOtpRequest request);
         SendOtpResponse SendSmsOtp(SmsOtpRequest request);
         PushAcceptResponse SendPushAccept(PushAcceptRequest request);
+        PushBiometricResponse SendPushBiometric(PushBiometricRequest request);
         BaseResponse GetPushAcceptStatus(string referenceId);
+
+        BaseResponse GetLinkStatus(string referenceId);
+        BaseResponse GetPushAcceptStatusStateful(string referenceId, string ingressCookie);
         SendOtpResponse SendAdHocSmsOtp(AdHocSmsOtpRequest request);
         SendOtpResponse SendAdHocPhonecallOtp(AdHocPhonecallOtpRequest request);
         SendOtpResponse SendAdHocEmailOtp(AdHocEmailOtpRequest request);
+        SmsLinkResponse SendSmsLink(SmsLinkOtpRequest request);
+        EmailLinkResponse SendEmailLinkOtp(EmailLinkOtpRequest request);
+        PushAcceptSymbolResponse SendPushAcceptSymbol(PushAcceptSymbolRequest request);
     }
 }

@@ -15,6 +15,9 @@ namespace SecureAuth.Sdk
         [DataMember(Name = "value", EmitDefaultValue = false)]
         public string FactorValue { get; set; }
 
+        [DataMember(Name = "biometricTypes", EmitDefaultValue = false)]
+        public List<string> BiometricTypes { get; set; }
+
         [DataMember(Name = "capabilities", EmitDefaultValue = false)]
         public List<string> Capabilities { get; set; }
     }

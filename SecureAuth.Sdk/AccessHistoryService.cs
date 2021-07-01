@@ -5,6 +5,7 @@ namespace SecureAuth.Sdk
     public class AccessHistoryService : IAccessHistoryService
     {
         private readonly ApiClient _apiClient;
+        private string apiVersion = "v2";
 
         protected internal AccessHistoryService(ApiClient apiClient)
         {
@@ -29,7 +30,7 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("AccessHistoryRequest.IpAddress", "IP Address cannot be empty.");
             }
 
-            return this._apiClient.Post<BaseResponse>("/api/v1/accesshistory", request);
+            return this._apiClient.Post<BaseResponse>("/api/" + apiVersion + "/accesshistory", request);
         }
     }
 }

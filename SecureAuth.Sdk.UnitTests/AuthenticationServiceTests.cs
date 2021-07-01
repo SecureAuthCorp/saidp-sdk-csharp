@@ -1,56 +1,30 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SecureAuth.Sdk.Models;
 using System.Configuration;
+using System.Net;
+using System.Threading;
 
 namespace SecureAuth.Sdk.UnitTests
 {
     [TestClass]
     public class AuthenticationServiceTests
     {
-        // Globals
-        static ISecureAuthService secAuthSvc;
-        static string goodUsername;
-        static string goodPassword;
-        static string badUsername;
-        static string badPassword;
-        static string goodStaticPin;
-        static string badStaticPin;
-        static string goodPhoneNumber;
-        static string goodEmailAddress;
-        static string goodDomain;
-        static string badDomain;
+        static EnvironmentAuthenticationServiceTest env;
 
         [ClassInitialize]
         public static void Init(TestContext testContext)
         {
-            // Grab values from app.config
-            goodUsername = ConfigurationManager.AppSettings["AuthSvc.goodUsername"];
-            goodPassword = ConfigurationManager.AppSettings["AuthSvc.goodPassword"];
-            badUsername = ConfigurationManager.AppSettings["AuthSvc.badUsername"];
-            badPassword = ConfigurationManager.AppSettings["AuthSvc.badPassword"];
-            goodStaticPin = ConfigurationManager.AppSettings["AuthSvc.goodStaticPin"];
-            badStaticPin = ConfigurationManager.AppSettings["AuthSvc.badStaticPin"];
-            goodPhoneNumber = ConfigurationManager.AppSettings["AuthSvc.goodPhoneNumber"];
-            goodEmailAddress = ConfigurationManager.AppSettings["AuthSvc.goodEmailAddress"];
-            goodDomain = ConfigurationManager.AppSettings["AuthSvc.goodDomain"];
-            badDomain = ConfigurationManager.AppSettings["AuthSvc.badDomain"];
-
-            string secureAuthRealm = ConfigurationManager.AppSettings["SecureAuthRealmUrl"];
-            string apiId = ConfigurationManager.AppSettings["ApiID"];
-            string apiKey = ConfigurationManager.AppSettings["ApiKey"];
-
-            // Init the SecureAuthService
-            Configuration config = new Configuration(secureAuthRealm, apiId, apiKey);
-            secAuthSvc = new SecureAuthService(config);
+            env = new EnvironmentAuthenticationServiceTest();
         }
 
         [TestMethod]
         public void ValidateGoodUserIdTest()
         {
             // Arrange
-            ValidateUserIdRequest req = new ValidateUserIdRequest(goodUsername);
+            ValidateUserIdRequest req = new ValidateUserIdRequest(env.goodUsername);
 
             // Act
-            BaseResponse res = secAuthSvc.Authenticate.ValidateUserId(req);
+            BaseResponse res = env.secAuthSvc.Authenticate.ValidateUserId(req);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Found, res.Status);
@@ -60,10 +34,10 @@ namespace SecureAuth.Sdk.UnitTests
         public void ValidateGoodUserIdWithDomainTest()
         {
             // Arrange
-            ValidateUserIdRequest req = new ValidateUserIdRequest(goodUsername, goodDomain);
+            ValidateUserIdRequest req = new ValidateUserIdRequest(env.goodUsername, env.goodDomain);
 
             // Act
-            BaseResponse res = secAuthSvc.Authenticate.ValidateUserId(req);
+            BaseResponse res = env.secAuthSvc.Authenticate.ValidateUserId(req);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Found, res.Status);
@@ -73,10 +47,10 @@ namespace SecureAuth.Sdk.UnitTests
         public void ValidateBadUserIdTest()
         {
             // Arrange
-            ValidateUserIdRequest req = new ValidateUserIdRequest(badUsername);
+            ValidateUserIdRequest req = new ValidateUserIdRequest(env.badUsername);
 
             // Act
-            BaseResponse res = secAuthSvc.Authenticate.ValidateUserId(req);
+            BaseResponse res = env.secAuthSvc.Authenticate.ValidateUserId(req);
 
             // Assert
             Assert.AreNotEqual(Constants.ResponseStatus.Found, res.Status);
@@ -86,10 +60,10 @@ namespace SecureAuth.Sdk.UnitTests
         public void ValidateBadDomainTest()
         {
             // Arrange
-            ValidateUserIdRequest req = new ValidateUserIdRequest(goodUsername, badDomain);
+            ValidateUserIdRequest req = new ValidateUserIdRequest(env.goodUsername, env.badDomain);
 
             // Act
-            BaseResponse res = secAuthSvc.Authenticate.ValidateUserId(req);
+            BaseResponse res = env.secAuthSvc.Authenticate.ValidateUserId(req);
 
             // Assert
             Assert.AreNotEqual(Constants.ResponseStatus.Found, res.Status);
@@ -99,10 +73,10 @@ namespace SecureAuth.Sdk.UnitTests
         public void ValidateGoodPasswordTest()
         {
             // Arrange
-            ValidatePasswordRequest req = new ValidatePasswordRequest(goodUsername, goodPassword);
+            ValidatePasswordRequest req = new ValidatePasswordRequest(env.goodUsername, env.goodPassword);
 
             // Act
-            BaseResponse res = secAuthSvc.Authenticate.ValidatePassword(req);
+            BaseResponse res = env.secAuthSvc.Authenticate.ValidatePassword(req);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Valid, res.Status);
@@ -112,10 +86,10 @@ namespace SecureAuth.Sdk.UnitTests
         public void ValidateBadPasswordTest()
         {
             // Arrange
-            ValidatePasswordRequest req = new ValidatePasswordRequest(goodUsername, badPassword);
+            ValidatePasswordRequest req = new ValidatePasswordRequest(env.goodUsername, env.badPassword);
 
             // Act
-            BaseResponse res = secAuthSvc.Authenticate.ValidatePassword(req);
+            BaseResponse res = env.secAuthSvc.Authenticate.ValidatePassword(req);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Invalid, res.Status);
@@ -125,10 +99,10 @@ namespace SecureAuth.Sdk.UnitTests
         public void ValidateGoodStaticPinTest()
         {
             // Arrange
-            ValidatePinRequest req = new ValidatePinRequest(goodUsername, goodStaticPin);
+            ValidatePinRequest req = new ValidatePinRequest(env.goodUsername, env.goodStaticPin);
 
             // Act
-            BaseResponse res = secAuthSvc.Authenticate.ValidatePin(req);
+            BaseResponse res = env.secAuthSvc.Authenticate.ValidatePin(req);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Valid, res.Status);
@@ -138,10 +112,10 @@ namespace SecureAuth.Sdk.UnitTests
         public void ValidateBadStaticPinTest()
         {
             // Arrange
-            ValidatePinRequest req = new ValidatePinRequest(goodUsername, badStaticPin);
+            ValidatePinRequest req = new ValidatePinRequest(env.goodUsername, env.badStaticPin);
 
             // Act
-            BaseResponse res = secAuthSvc.Authenticate.ValidatePin(req);
+            BaseResponse res = env.secAuthSvc.Authenticate.ValidatePin(req);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Invalid, res.Status);
@@ -152,12 +126,12 @@ namespace SecureAuth.Sdk.UnitTests
         {
             AdHocSmsOtpRequest request = new AdHocSmsOtpRequest
             {
-                Token = goodPhoneNumber,
-                UserId = goodUsername,
+                Token = env.goodPhoneNumber,
+                UserId = env.goodUsername,
                 EvaluateNumber = false
             };
 
-            SendOtpResponse response = secAuthSvc.Authenticate.SendAdHocSmsOtp(request);
+            SendOtpResponse response = env.secAuthSvc.Authenticate.SendAdHocSmsOtp(request);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Valid, response.Status);
@@ -168,12 +142,12 @@ namespace SecureAuth.Sdk.UnitTests
         {
             AdHocPhonecallOtpRequest request = new AdHocPhonecallOtpRequest
             {
-                Token = goodPhoneNumber,
-                UserId = goodUsername,
+                Token = env.goodPhoneNumber,
+                UserId = env.goodUsername,
                 EvaluateNumber = false
             };
 
-            SendOtpResponse response = secAuthSvc.Authenticate.SendAdHocPhonecallOtp(request);
+            SendOtpResponse response = env.secAuthSvc.Authenticate.SendAdHocPhonecallOtp(request);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Valid, response.Status);
@@ -185,14 +159,103 @@ namespace SecureAuth.Sdk.UnitTests
         {
             AdHocEmailOtpRequest request = new AdHocEmailOtpRequest
             {
-                Token = goodEmailAddress,
-                UserId = goodUsername,
+                Token = env.goodEmailAddress,
+                UserId = env.goodUsername,
             };
 
-            SendOtpResponse response = secAuthSvc.Authenticate.SendAdHocEmailOtp(request);
+            SendOtpResponse response = env.secAuthSvc.Authenticate.SendAdHocEmailOtp(request);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Valid, response.Status);
+        }
+
+        [TestMethod]
+        public void ValidateSendSmsLinkTest()
+        {
+            // Arrange
+            SmsLinkOtpRequest req = new SmsLinkOtpRequest(env.goodUsername, "Phone1");
+
+            // Act
+            BaseResponse res = env.secAuthSvc.Authenticate.SendSmsLink(req);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Valid, res.Status);
+        }
+
+        [TestMethod]
+        public void ValidateSendEmailLinkOtpTest()
+        {
+            // Arrange
+            EmailLinkOtpRequest req = new EmailLinkOtpRequest(env.goodUsername, "Email1");
+
+            // Act
+            BaseResponse res = env.secAuthSvc.Authenticate.SendEmailLinkOtp(req);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Valid, res.Status);
+        }
+        
+        [TestMethod]
+        public void ValidateSendPushAcceptSymbolTest()
+        {
+            // Arrange
+            PushAcceptSymbolRequest req = new PushAcceptSymbolRequest(env.goodUsername, "ac809acab7f64f82a53922498a701f7b");
+
+            // Act
+            PushAcceptSymbolResponse res = env.secAuthSvc.Authenticate.SendPushAcceptSymbol(req);
+
+            BaseResponse resStatus = env.secAuthSvc.Authenticate.GetPushAcceptStatus(res.ReferenceId);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Valid, res.Status);
+        }
+
+        [TestMethod]
+        public void ValidateSendPushBiometricTest()
+        {
+            BiometricType biometricType = new BiometricType();
+
+            // Arrange
+            PushBiometricRequest req = new PushBiometricRequest(env.goodUsername, "ac809acab7f64f82a53922498a701f7b", biometricType);
+
+            // Act
+            PushBiometricResponse res = env.secAuthSvc.Authenticate.SendPushBiometric(req);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Valid, res.Status);
+        }
+
+        [TestMethod]
+        public void ValidateGetPushAcceptStatusTest()
+        {
+            
+            // Act
+            BaseResponse res = env.secAuthSvc.Authenticate.GetPushAcceptStatus("3fbea605-b027-4c2f-b345-ce0d497111c3");
+
+            // Assert
+            Assert.AreEqual("ACCEPTED", res.Status);
+        }
+
+        [TestMethod]
+        public void ValidateGetLinkStatusTest()
+        {
+
+            // Act
+            BaseResponse res = env.secAuthSvc.Authenticate.GetLinkStatus("f3b0e479-90e8-4d09-a53c-f0ee2a95eecb");
+
+            // Assert
+            Assert.AreEqual("ACCEPTED", res.Status);
+        }
+
+        [TestMethod]
+        public void ValidateGetPushAcceptStatusStateFulTest()
+        {
+            string ingressCookie = "";
+            // Act
+            BaseResponse res = env.secAuthSvc.Authenticate.GetPushAcceptStatusStateful("ref", ingressCookie);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Valid, res.Status);
         }
     }
 }

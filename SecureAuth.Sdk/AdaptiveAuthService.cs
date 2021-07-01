@@ -5,6 +5,7 @@ namespace SecureAuth.Sdk
     public class AdaptiveAuthService : IAdaptiveAuthService
     {
         private readonly ApiClient _apiClient;
+        private string apiVersion = "v2";
 
         protected internal AdaptiveAuthService(ApiClient apiClient)
         {
@@ -25,7 +26,7 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("AdaptiveAuthRequest.UserId", "User ID cannot be empty.");
             }
 
-            return this._apiClient.Post<AdaptiveAuthResponse>("/api/v1/adaptauth", request);
+            return this._apiClient.Post<AdaptiveAuthResponse>("/api/" + apiVersion + "/adaptauth", request);
         }
     }
 }

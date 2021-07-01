@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 
 namespace SecureAuth.Sdk
 {
     public class AuthenticationService : IAuthenticationService
     {
         private readonly ApiClient _apiClient;
+        private string apiVersion = "v2";
 
         protected internal AuthenticationService(ApiClient apiClient)
         {
@@ -147,7 +149,7 @@ namespace SecureAuth.Sdk
             }
 
             //process request
-            return this._apiClient.Post<BaseResponse>("/api/v1/otp/validate", request);
+            return this._apiClient.Post<BaseResponse>("/api/" + apiVersion + "/otp/validate", request);
         }
         #endregion
 
@@ -352,6 +354,50 @@ namespace SecureAuth.Sdk
             return SendOtp(request);
         }
 
+        public SmsLinkResponse SendSmsLink(SmsLinkOtpRequest request)
+        {
+            string[] validFactorIds = { "Phone1", "Phone2", "Phone3", "Phone4" };
+
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("SendSmsLink.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.FactorId))
+            {
+                throw new ArgumentNullException("SendSmsLink.FactorId", "FactorId cannot be empty.");
+            }
+            if (!validFactorIds.Contains(request.FactorId))
+            {
+                throw new ArgumentException("Invalid FactorId.", "SendSmsLink.FactorId");
+            }
+
+            // process request
+            return this._apiClient.Post<SmsLinkResponse>("/api/" + apiVersion + "/auth", request);
+        }
+
+
+        public EmailLinkResponse SendEmailLinkOtp(EmailLinkOtpRequest request)
+        {
+            string[] validFactorIds = { "Email1", "Email2", "Email3", "Email4" };
+
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("EmailOtpRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.FactorId))
+            {
+                throw new ArgumentNullException("EmailOtpRequest.FactorId", "FactorId cannot be empty.");
+            }
+            if (!validFactorIds.Contains(request.FactorId))
+            {
+                throw new ArgumentException("Invalid FactorId.", "EmailOtpRequest.FactorId");
+            }
+
+            // process request
+            return this._apiClient.Post<EmailLinkResponse>("/api/" + apiVersion + "/auth", request);
+        }
 
         #endregion
 
@@ -380,7 +426,53 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return this._apiClient.Post<PushAcceptResponse>("/api/v1/auth", request);
+            return this._apiClient.Post<PushAcceptResponse>("/api/" + apiVersion + "/auth", request);
+        }
+
+        public PushBiometricResponse SendPushBiometric(PushBiometricRequest request)
+        {
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("PushBiometricRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.FactorId))
+            {
+                throw new ArgumentNullException("PushBiometricRequest.FactorId", "FactorId cannot be empty.");
+            }
+            Guid temp;
+            if (!Guid.TryParseExact(request.FactorId, "N", out temp))
+            {
+                throw new ArgumentException("Invalid FactorId format. Must be a GUID.", "PushBiometricRequest.FactorId");
+            }
+            if (request.BiometricType == null)
+            {
+                throw new ArgumentNullException("PushBiometricRequest.FactorId", "BiometricType cannot be empty.");
+            }
+
+            // process request
+            return this._apiClient.Post<PushBiometricResponse>("/api/" + apiVersion + "/auth", request);
+        }
+
+        public PushAcceptSymbolResponse SendPushAcceptSymbol(PushAcceptSymbolRequest request)
+        {
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("PushAcceptSymbolRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.FactorId))
+            {
+                throw new ArgumentNullException("PushAcceptSymbolRequest.FactorId", "FactorId cannot be empty.");
+            }
+            Guid temp;
+            if (!Guid.TryParseExact(request.FactorId, "N", out temp))
+            {
+                throw new ArgumentException("Invalid FactorId format. Must be a GUID.", "PushAcceptSymbolRequest.FactorId");
+            }
+
+            // process request
+            return this._apiClient.Post<PushAcceptSymbolResponse>("/api/" + apiVersion + "/auth", request);
         }
 
         /// <summary>
@@ -395,8 +487,29 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("referenceId", "Reference ID cannot be empty.");
             }
 
-            return this._apiClient.Get<BaseResponse>(string.Format("/api/v1/auth/{0}", referenceId));
+            return this._apiClient.Get<BaseResponse>(string.Format("/api/" + apiVersion + "/auth/{0}", referenceId));
         }
+
+        public BaseResponse GetPushAcceptStatusStateful(string referenceId, string ingressCookie)
+        {
+            if (string.IsNullOrEmpty(referenceId))
+            {
+                throw new ArgumentNullException("referenceId", "Reference ID cannot be empty.");
+            }
+
+            return this._apiClient.GetStateful<BaseResponse>(string.Format("/api/" + apiVersion + "/auth/{0}", referenceId), ingressCookie);
+        }
+
+        public BaseResponse GetLinkStatus(string referenceId)
+        {
+            if (string.IsNullOrEmpty(referenceId))
+            {
+                throw new ArgumentNullException("referenceId", "Reference ID cannot be empty.");
+            }
+
+            return this._apiClient.Get<BaseResponse>(string.Format("/api/" + apiVersion + "/auth/link/{0}", referenceId));
+        }
+
         #endregion
 
         #endregion
@@ -404,12 +517,12 @@ namespace SecureAuth.Sdk
         #region Private Methods
         private BaseResponse Validate(BaseRequest request)
         {
-            return this._apiClient.Post<BaseResponse>("/api/v1/auth", request);
+            return this._apiClient.Post<BaseResponse>("/api/" + apiVersion + "/auth", request);
         }
 
         private SendOtpResponse SendOtp(BaseRequest request)
         {
-            return this._apiClient.Post<SendOtpResponse>("/api/v1/auth", request);
+            return this._apiClient.Post<SendOtpResponse>("/api/" + apiVersion + "/auth", request);
         }
         #endregion
     }

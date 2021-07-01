@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SecureAuth.Sdk</RootNamespace>
     <AssemblyName>SecureAuth.Sdk</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="ApiClient.cs" />
     <Compile Include="AuthenticationService.cs" />
+    <Compile Include="BehavioralBiometricsService.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="AccessHistoryService.cs" />
     <Compile Include="AdaptiveAuthService.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="IAccessHistoryService.cs" />
     <Compile Include="IAdaptiveAuthService.cs" />
     <Compile Include="IAuthenticationService.cs" />
+    <Compile Include="IBehavioralBiometricsService.cs" />
     <Compile Include="IDeviceFingerprintService.cs" />
     <Compile Include="IGroupService.cs" />
     <Compile Include="IIpEvaluationService.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="IUserService.cs" />
     <Compile Include="JsonSerializer.cs" />
     <Compile Include="Models\AccessHistory.cs" />
+    <Compile Include="Models\BiometricType.cs" />
     <Compile Include="Models\FingerprintWrapper.cs" />
     <Compile Include="Models\TouchSupport.cs" />
     <Compile Include="Models\UaBrowser.cs" />
@@ -91,17 +94,24 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\AdHocSmsOtpRequest.cs" />
     <Compile Include="Requests\BaseRequest.cs" />
+    <Compile Include="Requests\PushBiometricRequest.cs" />
+    <Compile Include="Requests\ResetBehavioralBioRequest.cs" />
+    <Compile Include="Requests\SendBehavioralBioRequest.cs" />
     <Compile Include="Requests\ConfirmDfpRequest.cs" />
     <Compile Include="Requests\AccessHistoryRequest.cs" />
     <Compile Include="Requests\AdaptiveAuthRequest.cs" />
     <Compile Include="Requests\CreateUserRequest.cs" />
     <Compile Include="Requests\ChangePasswordRequest.cs" />
+    <Compile Include="Requests\EmailLinkOTPRequest.cs" />
     <Compile Include="Requests\GroupAssociateRequest.cs" />
     <Compile Include="Requests\NumberProfileRequest.cs" />
     <Compile Include="Requests\OathTokenRequest.cs" />
+    <Compile Include="Requests\PushAcceptSymbolRequest.cs" />
     <Compile Include="Requests\ResetPasswordRequest.cs" />
     <Compile Include="Requests\SaveDfpRequest.cs" />
     <Compile Include="Requests\ScoreDfpRequest.cs" />
+    <Compile Include="Requests\SetUserStatusRequest.cs" />
+    <Compile Include="Requests\SmsLinkOTPRequest.cs" />
     <Compile Include="Requests\UpdateProfileRequest.cs" />
     <Compile Include="Requests\ValidateDfpRequest.cs" />
     <Compile Include="Requests\ValidateOtpRequest.cs" />
@@ -119,8 +129,10 @@
     <Compile Include="Requests\ValidateUserIdRequest.cs" />
     <Compile Include="Responses\BaseResponse.cs" />
     <Compile Include="Responses\AdaptiveAuthResponse.cs" />
+    <Compile Include="Responses\BiometricsJavascriptLinkResponse.cs" />
     <Compile Include="Responses\DfpResponse.cs" />
     <Compile Include="Responses\DfpJavascriptLinkResponse.cs" />
+    <Compile Include="Responses\EmailLinkResponse.cs" />
     <Compile Include="Responses\GetProfileResponse.cs" />
     <Compile Include="Responses\GroupAssociateResponse.cs" />
     <Compile Include="Responses\NumberProfileResponse.cs" />
@@ -128,8 +140,12 @@
     <Compile Include="Responses\PushAcceptResponse.cs" />
     <Compile Include="Responses\GetFactorsResponse.cs" />
     <Compile Include="Responses\IpRiskResponse.cs" />
+    <Compile Include="Responses\PushAcceptSymbolResponse.cs" />
+    <Compile Include="Responses\PushBiometricResponse.cs" />
     <Compile Include="Responses\SendOtpResponse.cs" />
+    <Compile Include="Responses\SmsLinkResponse.cs" />
     <Compile Include="Responses\ThrottleResponse.cs" />
+    <Compile Include="Responses\UserStatusResponse.cs" />
     <Compile Include="SecureAuthService.cs" />
     <Compile Include="UserService.cs" />
   </ItemGroup>
