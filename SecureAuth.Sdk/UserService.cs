@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SecureAuth.Sdk.Models;
+using System;
 using System.Collections.Generic;
 
 namespace SecureAuth.Sdk
@@ -19,12 +20,14 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="userId">The unique user ID.</param>
         /// <returns>GetFactorResponse</returns>
-        public GetFactorsResponse GetFactors(string userId, string domain = "")
+        public GetFactorsResponse GetFactors(string userId, bool errorOnAccountStatus = false, string domain = "")
         {
             if (string.IsNullOrEmpty(userId))
             {
                 throw new ArgumentNullException("userId", "User ID cannot be empty.");
             }
+
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
 
             string endpoint;
 
@@ -164,12 +167,14 @@ namespace SecureAuth.Sdk
         /// <param name="userId">The unique user ID.</param>
         /// <param name="request">The reset password request</param>
         /// <returns>BaseResponse</returns>
-        public BaseResponse ResetPassword(string userId, ResetPasswordRequest request, string domain = "")
+        public BaseResponse ResetPassword(string userId, ResetPasswordRequest request, string domain = "", bool errorOnAccountStatus = false)
         {
             if (string.IsNullOrEmpty(userId))
             {
                 throw new ArgumentNullException("userId", "User ID cannot be empty.");
             }
+
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
 
             string endpoint;
 

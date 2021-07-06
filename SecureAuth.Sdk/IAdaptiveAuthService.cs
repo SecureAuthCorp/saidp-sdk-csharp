@@ -1,7 +1,9 @@
-﻿namespace SecureAuth.Sdk
+﻿using SecureAuth.Sdk.Models;
+
+namespace SecureAuth.Sdk
 {
     public interface IAdaptiveAuthService
     {
-        AdaptiveAuthResponse RunAdaptiveAuth(AdaptiveAuthRequest request);
+        AdaptiveAuthResponse RunAdaptiveAuth(AdaptiveAuthRequest request, bool errorOnAccountStatus = false);
     }
 }

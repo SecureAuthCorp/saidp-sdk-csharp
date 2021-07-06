@@ -305,7 +305,7 @@ namespace SecureAuth.Sdk.UnitTests
         public void ValidateSetUserStatusTest()
         {
             // Arrange
-            SetUserStatusRequest request = new SetUserStatusRequest(Constants.ResponseStatus.LockOut);
+            SetUserStatusRequest request = new SetUserStatusRequest("lock");
 
             // Act
             BaseResponse res = env.secAuthSvc.User.SetUserStatus(env.goodUsername, request, env.goodDomain);

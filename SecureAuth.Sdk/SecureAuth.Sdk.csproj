@@ -71,6 +71,7 @@
     <Compile Include="JsonSerializer.cs" />
     <Compile Include="Models\AccessHistory.cs" />
     <Compile Include="Models\BiometricType.cs" />
+    <Compile Include="Models\ApiVersion.cs" />
     <Compile Include="Models\FingerprintWrapper.cs" />
     <Compile Include="Models\TouchSupport.cs" />
     <Compile Include="Models\UaBrowser.cs" />

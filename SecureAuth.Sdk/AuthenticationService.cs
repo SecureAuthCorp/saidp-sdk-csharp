@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SecureAuth.Sdk.Models;
+using System;
 using System.Linq;
 using System.Net;
 
@@ -23,7 +24,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">ValidateUserIdRequest</param>
         /// <returns>BaseResponse</returns>
-        public BaseResponse ValidateUserId(ValidateUserIdRequest request)
+        public BaseResponse ValidateUserId(ValidateUserIdRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -32,7 +33,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return Validate(request);
+            return Validate(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">ValidatePasswordRequest</param>
         /// <returns>BaseResponse</returns>
-        public BaseResponse ValidatePassword(ValidatePasswordRequest request)
+        public BaseResponse ValidatePassword(ValidatePasswordRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -54,7 +55,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return Validate(request);
+            return Validate(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">ValidateKbaRequest</param>
         /// <returns>BaseResponse</returns>
-        public BaseResponse ValidateKba(ValidateKbaRequest request)
+        public BaseResponse ValidateKba(ValidateKbaRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -80,7 +81,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return Validate(request);
+            return Validate(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -88,7 +89,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">ValidateOathRequest</param>
         /// <returns>BaseResponse</returns>
-        public BaseResponse ValidateOath(ValidateOathRequest request)
+        public BaseResponse ValidateOath(ValidateOathRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -105,7 +106,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return Validate(request);
+            return Validate(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -114,7 +115,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">ValidatePasswordRequest</param>
         /// <returns>BaseResponse</returns>
-        public BaseResponse ValidatePin(ValidatePinRequest request)
+        public BaseResponse ValidatePin(ValidatePinRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -127,7 +128,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return Validate(request);
+            return Validate(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -136,7 +137,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">ValidateOtpRequest</param>
         /// <returns>BaseResponse</returns>
-        public BaseResponse ValidateOtp(ValidateOtpRequest request)
+        public BaseResponse ValidateOtp(ValidateOtpRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -148,6 +149,7 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("ValidateOtpRequest.Otp", "OTP cannot be empty.");
             }
 
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
             //process request
             return this._apiClient.Post<BaseResponse>("/api/" + apiVersion + "/otp/validate", request);
         }
@@ -161,7 +163,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">EmailOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendEmailOtp(EmailOtpRequest request)
+        public SendOtpResponse SendEmailOtp(EmailOtpRequest request, bool errorOnAccountStatus = false)
         {
             string[] validFactorIds = { "Email1", "Email2", "Email3", "Email4" };
 
@@ -180,7 +182,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -189,7 +191,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">HelpDeskOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendHelpDeskOtp(HelpDeskOtpRequest request)
+        public SendOtpResponse SendHelpDeskOtp(HelpDeskOtpRequest request, bool errorOnAccountStatus = false)
         {
             string[] validFactorIds = { "HelpDesk1", "HelpDesk2" };
 
@@ -208,7 +210,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -217,7 +219,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">PhonecallOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendPhonecallOtp(PhonecallOtpRequest request)
+        public SendOtpResponse SendPhonecallOtp(PhonecallOtpRequest request, bool errorOnAccountStatus = false)
         {
             string[] validFactorIds = { "Phone1", "Phone2", "Phone3", "Phone4" };
 
@@ -236,7 +238,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -245,7 +247,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">PushOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendPushOtp(PushOtpRequest request)
+        public SendOtpResponse SendPushOtp(PushOtpRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -263,7 +265,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -272,7 +274,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">SmsOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendSmsOtp(SmsOtpRequest request)
+        public SendOtpResponse SendSmsOtp(SmsOtpRequest request, bool errorOnAccountStatus = false)
         {
             string[] validFactorIds = { "Phone1", "Phone2", "Phone3", "Phone4" };
 
@@ -291,7 +293,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -299,7 +301,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">AdHocSmsOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendAdHocSmsOtp(AdHocSmsOtpRequest request)
+        public SendOtpResponse SendAdHocSmsOtp(AdHocSmsOtpRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -311,7 +313,7 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("AdHocSmsOtpRequest.Token", "Token cannot be empty");
             }
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -319,7 +321,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">AdHocPhonecallOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendAdHocPhonecallOtp(AdHocPhonecallOtpRequest request)
+        public SendOtpResponse SendAdHocPhonecallOtp(AdHocPhonecallOtpRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -331,7 +333,7 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("AdHocPhonecallOtpRequest.Token", "Token cannot be empty");
             }
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -339,7 +341,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">AdHocEmailOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendAdHocEmailOtp(AdHocEmailOtpRequest request)
+        public SendOtpResponse SendAdHocEmailOtp(AdHocEmailOtpRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -351,10 +353,10 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("AdHocEmailOtpRequest.Token", "Token cannot be empty");
             }
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
-        public SmsLinkResponse SendSmsLink(SmsLinkOtpRequest request)
+        public SmsLinkResponse SendSmsLink(SmsLinkOtpRequest request, bool errorOnAccountStatus = false)
         {
             string[] validFactorIds = { "Phone1", "Phone2", "Phone3", "Phone4" };
 
@@ -372,12 +374,14 @@ namespace SecureAuth.Sdk
                 throw new ArgumentException("Invalid FactorId.", "SendSmsLink.FactorId");
             }
 
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
             // process request
             return this._apiClient.Post<SmsLinkResponse>("/api/" + apiVersion + "/auth", request);
         }
 
 
-        public EmailLinkResponse SendEmailLinkOtp(EmailLinkOtpRequest request)
+        public EmailLinkResponse SendEmailLinkOtp(EmailLinkOtpRequest request, bool errorOnAccountStatus = false)
         {
             string[] validFactorIds = { "Email1", "Email2", "Email3", "Email4" };
 
@@ -395,6 +399,8 @@ namespace SecureAuth.Sdk
                 throw new ArgumentException("Invalid FactorId.", "EmailOtpRequest.FactorId");
             }
 
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
             // process request
             return this._apiClient.Post<EmailLinkResponse>("/api/" + apiVersion + "/auth", request);
         }
@@ -408,7 +414,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">PushAcceptRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public PushAcceptResponse SendPushAccept(PushAcceptRequest request)
+        public PushAcceptResponse SendPushAccept(PushAcceptRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -425,11 +431,13 @@ namespace SecureAuth.Sdk
                 throw new ArgumentException("Invalid FactorId format. Must be a GUID.", "PushAcceptRequest.FactorId");
             }
 
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
             // process request
             return this._apiClient.Post<PushAcceptResponse>("/api/" + apiVersion + "/auth", request);
         }
 
-        public PushBiometricResponse SendPushBiometric(PushBiometricRequest request)
+        public PushBiometricResponse SendPushBiometric(PushBiometricRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -450,11 +458,13 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("PushBiometricRequest.FactorId", "BiometricType cannot be empty.");
             }
 
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
             // process request
             return this._apiClient.Post<PushBiometricResponse>("/api/" + apiVersion + "/auth", request);
         }
 
-        public PushAcceptSymbolResponse SendPushAcceptSymbol(PushAcceptSymbolRequest request)
+        public PushAcceptSymbolResponse SendPushAcceptSymbol(PushAcceptSymbolRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -470,6 +480,8 @@ namespace SecureAuth.Sdk
             {
                 throw new ArgumentException("Invalid FactorId format. Must be a GUID.", "PushAcceptSymbolRequest.FactorId");
             }
+
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
 
             // process request
             return this._apiClient.Post<PushAcceptSymbolResponse>("/api/" + apiVersion + "/auth", request);
@@ -515,14 +527,14 @@ namespace SecureAuth.Sdk
         #endregion
 
         #region Private Methods
-        private BaseResponse Validate(BaseRequest request)
+        private BaseResponse Validate(BaseRequest request, ApiVersion apiVersion)
         {
-            return this._apiClient.Post<BaseResponse>("/api/" + apiVersion + "/auth", request);
+            return this._apiClient.Post<BaseResponse>("/api/" + apiVersion.Value + "/auth", request);
         }
 
-        private SendOtpResponse SendOtp(BaseRequest request)
+        private SendOtpResponse SendOtp(BaseRequest request, ApiVersion apiVersion)
         {
-            return this._apiClient.Post<SendOtpResponse>("/api/" + apiVersion + "/auth", request);
+            return this._apiClient.Post<SendOtpResponse>("/api/" + apiVersion.Value + "/auth", request);
         }
         #endregion
     }
