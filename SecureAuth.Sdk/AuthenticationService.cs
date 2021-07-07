@@ -258,11 +258,6 @@ namespace SecureAuth.Sdk
             {
                 throw new ArgumentNullException("PushOtpRequest.FactorId", "FactorId cannot be empty.");
             }
-            Guid temp;
-            if (!Guid.TryParseExact(request.FactorId, "N", out temp))
-            {
-                throw new ArgumentException("Invalid FactorId format. Must be a GUID.", "PushOtpRequest.FactorId");
-            }
 
             // process request
             return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
@@ -425,11 +420,7 @@ namespace SecureAuth.Sdk
             {
                 throw new ArgumentNullException("PushAcceptRequest.FactorId", "FactorId cannot be empty.");
             }
-            Guid temp;
-            if (!Guid.TryParseExact(request.FactorId, "N", out temp))
-            {
-                throw new ArgumentException("Invalid FactorId format. Must be a GUID.", "PushAcceptRequest.FactorId");
-            }
+
 
             string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
 
@@ -447,11 +438,6 @@ namespace SecureAuth.Sdk
             if (string.IsNullOrEmpty(request.FactorId))
             {
                 throw new ArgumentNullException("PushBiometricRequest.FactorId", "FactorId cannot be empty.");
-            }
-            Guid temp;
-            if (!Guid.TryParseExact(request.FactorId, "N", out temp))
-            {
-                throw new ArgumentException("Invalid FactorId format. Must be a GUID.", "PushBiometricRequest.FactorId");
             }
             if (request.BiometricType == null)
             {
@@ -474,11 +460,6 @@ namespace SecureAuth.Sdk
             if (string.IsNullOrEmpty(request.FactorId))
             {
                 throw new ArgumentNullException("PushAcceptSymbolRequest.FactorId", "FactorId cannot be empty.");
-            }
-            Guid temp;
-            if (!Guid.TryParseExact(request.FactorId, "N", out temp))
-            {
-                throw new ArgumentException("Invalid FactorId format. Must be a GUID.", "PushAcceptSymbolRequest.FactorId");
             }
 
             string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;

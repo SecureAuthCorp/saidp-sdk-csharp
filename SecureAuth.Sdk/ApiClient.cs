@@ -99,7 +99,7 @@ namespace SecureAuth.Sdk
             using (HttpClient client = new HttpClient(handler))
             {
                 //Send Ingress cookie for stateful requests
-                Uri uri = new Uri(apiEndpoint);
+                Uri uri = new Uri(this.SecureAuthRealmUrl);
                 cookieContainer.Add(uri, new Cookie("INGRESSCOOKIE", ingressCookie));
                 var response = client.GetAsync(requestUrl).Result;
                 statusCode = response.StatusCode;
