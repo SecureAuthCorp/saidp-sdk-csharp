@@ -199,7 +199,7 @@ namespace SecureAuth.Sdk.UnitTests
         public void ValidateSendPushAcceptSymbolTest()
         {
             // Arrange
-            PushAcceptSymbolRequest req = new PushAcceptSymbolRequest(env.goodUsername, "ac809acab7f64f82a53922498a701f7b");
+            PushAcceptSymbolRequest req = new PushAcceptSymbolRequest(env.goodUsername, "1f12159f-244a-420f-9713-0f50d7eb10e0");
 
             // Act
             PushAcceptSymbolResponse res = env.secAuthSvc.Authenticate.SendPushAcceptSymbol(req);
@@ -250,9 +250,37 @@ namespace SecureAuth.Sdk.UnitTests
         [TestMethod]
         public void ValidateGetPushAcceptStatusStateFulTest()
         {
-            string ingressCookie = "";
+            string ingressCookie = "1625673799.852.257.384037";
             // Act
-            BaseResponse res = env.secAuthSvc.Authenticate.GetPushAcceptStatusStateful("ref", ingressCookie);
+            BaseResponse res = env.secAuthSvc.Authenticate.GetPushAcceptStatusStateful("9320be4e-c631-40c6-82db-05ddfa8b27c0", ingressCookie);
+
+            // Assert
+            Assert.AreEqual("ACCEPTED", res.Message);
+        }
+
+
+        //SmsLinkResponse SendAdHocSmsLinkOtp(AdHocSmsLinkOtpRequest request, bool errorOnAccountStatus = false)
+        [TestMethod]
+        public void ValidateSendAdHocSmsLinkOtpTest()
+        {
+            AdHocSmsLinkOtpRequest req = new AdHocSmsLinkOtpRequest();
+            req.Token = env.goodPhoneNumber;
+            req.UserId = "Test";
+            // Act
+            SmsLinkResponse res = env.secAuthSvc.Authenticate.SendAdHocSmsLinkOtp(req);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Valid, res.Status);
+        }
+
+        [TestMethod]
+        public void ValidateSendAdHocEmailLinkOtpTest()
+        {
+            AdHocEmailLinkOtpRequest req = new AdHocEmailLinkOtpRequest();
+            req.Token = env.goodEmailAddress;
+            req.UserId = "Test";
+            // Act
+            EmailLinkResponse res = env.secAuthSvc.Authenticate.SendAdHocEmailLinkOtp(req);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Valid, res.Status);

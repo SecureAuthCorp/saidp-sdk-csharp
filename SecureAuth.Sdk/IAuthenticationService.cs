@@ -27,5 +27,9 @@ namespace SecureAuth.Sdk
         SmsLinkResponse SendSmsLink(SmsLinkOtpRequest request, bool errorOnAccountStatus = false);
         EmailLinkResponse SendEmailLinkOtp(EmailLinkOtpRequest request, bool errorOnAccountStatus = false);
         PushAcceptSymbolResponse SendPushAcceptSymbol(PushAcceptSymbolRequest request, bool errorOnAccountStatus = false);
+        SmsLinkResponse SendAdHocSmsLinkOtp(AdHocSmsLinkOtpRequest request, bool errorOnAccountStatus = false);
+        EmailLinkResponse SendAdHocEmailLinkOtp(AdHocEmailLinkOtpRequest request, bool errorOnAccountStatus = false);
+
+        BaseResponse GetLinkStatusStateful(string referenceId, string ingressCookie);
     }
 }

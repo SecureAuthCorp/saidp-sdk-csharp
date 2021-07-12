@@ -35,7 +35,8 @@ namespace SecureAuth.Sdk.UnitTests
             goodStaticPin = ConfigurationManager.AppSettings["AuthSvc.goodStaticPin"];
             goodPassword = ConfigurationManager.AppSettings["AuthSvc.goodPassword"];
             badPassword = ConfigurationManager.AppSettings["AuthSvc.badPassword"];
-
+            goodPhoneNumber = ConfigurationManager.AppSettings["AuthSvc.goodPhoneNumber"];
+            
             string secureAuthRealm = ConfigurationManager.AppSettings["SecureAuthRealmUrl"];
             string apiId = ConfigurationManager.AppSettings["ApiID"];
             string apiKey = ConfigurationManager.AppSettings["ApiKey"];

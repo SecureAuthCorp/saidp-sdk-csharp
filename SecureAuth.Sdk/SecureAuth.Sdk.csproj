@@ -93,8 +93,10 @@
     <Compile Include="Models\UserProfileProperty.cs" />
     <Compile Include="NumberProfileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\AdHocSmsLinkOtpRequest.cs" />
     <Compile Include="Requests\AdHocSmsOtpRequest.cs" />
     <Compile Include="Requests\BaseRequest.cs" />
+    <Compile Include="Requests\AdHocEmailLinkOtpRequest.cs" />
     <Compile Include="Requests\PushBiometricRequest.cs" />
     <Compile Include="Requests\ResetBehavioralBioRequest.cs" />
     <Compile Include="Requests\SendBehavioralBioRequest.cs" />

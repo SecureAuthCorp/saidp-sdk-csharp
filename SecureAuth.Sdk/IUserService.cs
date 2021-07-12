@@ -4,7 +4,7 @@ namespace SecureAuth.Sdk
 {
     public interface IUserService
     {
-        GetFactorsResponse GetFactors(string userId,  bool errorOnAccountStatus = false, string domain = "");
+        GetFactorsResponse GetFactors(string userId, string domain = "", bool errorOnAccountStatus = false);
         GetUserProfileResponse GetUserProfile(string userId, string domain = "");
         BaseResponse UpdateUserProfile(string userId, UpdateUserProfileRequest request, string domain = "");
         BaseResponse CreateUser(CreateUserRequest request);
@@ -16,10 +16,11 @@ namespace SecureAuth.Sdk
         ThrottleResponse ResetThrottleCount(string userId, string domain = "");
         ThrottleResponse GetOTPThrottleCount(string userId, string domain = "");
         ThrottleResponse ResetOTPThrottleCount(string userId, string domain = "");
-        GetFactorsResponse GetUserFactorsQueryString(string userId, string domain = "");
+        GetFactorsResponse GetUserFactorsQueryString(string userId, string domain = "", bool errorOnAccountStatus = false);
         GroupAssociateResponse AddGroupsToUserQueryString(string userId, GroupAssociateRequest request, string domain = "");
         BaseResponse AddUserToGroupQueryString(string groupName, string userId, string domain = "");
         UserStatusResponse GetUserStatus(string userId, string domain = "");
         BaseResponse SetUserStatus(string userId, SetUserStatusRequest request, string domain = "");
+        UserStatusResponse GetUserStatusQueryString(string userId, string domain = "");
     }
 }

@@ -15,7 +15,7 @@ namespace SecureAuth.Sdk
         [DataMember(Name = "redirect_url", EmitDefaultValue = false)]
         public string RedirectUrl { get; set; }
 
-        public override bool IsSucess()
+        public override bool IsSuccess()
         {
             return (this.StatusCode == HttpStatusCode.OK);
         }

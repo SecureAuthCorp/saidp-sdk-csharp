@@ -191,7 +191,7 @@ Parameter name: ValidateDfpRequest.Fingerprint", ex.Message);
             DfpResponse res = env.secAuthSvc.DeviceFingerprint.ValidateDfp(_validateDfpRequest);
 
             // Assert
-            Assert.IsTrue(res.IsSucess());
+            Assert.IsTrue(res.IsSuccess());
             Assert.IsNotNull(res.FingerprintId);
             Assert.IsNotNull(res.FingerprintName);
         }
@@ -262,7 +262,7 @@ Parameter name: ValidateDfpRequest.FingerprintId", ex.Message);
             res = env.secAuthSvc.DeviceFingerprint.ConfirmDfp(req);
 
             // Assert
-            Assert.IsTrue(res.IsSucess());
+            Assert.IsTrue(res.IsSuccess());
             Assert.IsNotNull(res.FingerprintId);
             Assert.IsNotNull(res.FingerprintName);
         }
@@ -338,7 +338,7 @@ Parameter name: ValidateDfpRequest.Fingerprint", ex.Message);
             DfpResponse res = env.secAuthSvc.DeviceFingerprint.ScoreDfp(_scoreDfpRequest);
 
             // Assert
-            Assert.IsTrue(res.IsSucess());
+            Assert.IsTrue(res.IsSuccess());
             Assert.IsNotNull(res.FingerprintId);
             Assert.IsNotNull(res.FingerprintName);
         }
@@ -414,7 +414,7 @@ Parameter name: ValidateDfpRequest.Fingerprint", ex.Message);
             DfpResponse res = env.secAuthSvc.DeviceFingerprint.SaveDfp(_saveDfpRequest);
 
             // Assert
-            Assert.IsTrue(res.IsSucess());
+            Assert.IsTrue(res.IsSuccess());
             Assert.IsNotNull(res.FingerprintId);
             Assert.IsNotNull(res.FingerprintName);
         }

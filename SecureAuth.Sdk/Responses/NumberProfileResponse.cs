@@ -9,7 +9,7 @@ namespace SecureAuth.Sdk
         [DataMember(Name = "numberProfileResult", EmitDefaultValue = false)]
         public NumberProfileResult NumberProfileResult { get; set; }
 
-        public override bool IsSucess()
+        public override bool IsSuccess()
         {
             return ((this.StatusCode == HttpStatusCode.OK) && (this.Status == "verified"));
         }

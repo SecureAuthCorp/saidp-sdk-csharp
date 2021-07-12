@@ -14,7 +14,7 @@ namespace SecureAuth.Sdk
 
         public bool NotFound()
         {
-            return ((this.StatusCode == HttpStatusCode.OK) && (this.Status == "not_found"));
+            return ((this.StatusCode == HttpStatusCode.NotFound) && (this.Status == "not_found"));
         }
 
         public bool InvalidGroup()

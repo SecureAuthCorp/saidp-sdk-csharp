@@ -375,7 +375,6 @@ namespace SecureAuth.Sdk
             return this._apiClient.Post<SmsLinkResponse>("/api/" + apiVersion + "/auth", request);
         }
 
-
         public EmailLinkResponse SendEmailLinkOtp(EmailLinkOtpRequest request, bool errorOnAccountStatus = false)
         {
             string[] validFactorIds = { "Email1", "Email2", "Email3", "Email4" };
@@ -399,6 +398,43 @@ namespace SecureAuth.Sdk
             // process request
             return this._apiClient.Post<EmailLinkResponse>("/api/" + apiVersion + "/auth", request);
         }
+
+        public SmsLinkResponse SendAdHocSmsLinkOtp(AdHocSmsLinkOtpRequest request, bool errorOnAccountStatus = false)
+        {
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("AdHocSmsLinkOtpRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.Token))
+            {
+                throw new ArgumentNullException("AdHocSmsLinkOtpRequest.Token", "Token cannot be empty");
+            }
+            // process request
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
+            return this._apiClient.Post<SmsLinkResponse>("/api/" + apiVersion + "/auth", request);
+        }
+
+
+        public EmailLinkResponse SendAdHocEmailLinkOtp(AdHocEmailLinkOtpRequest request, bool errorOnAccountStatus = false)
+        {
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("AdHocEmailLinkOtpRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.Token))
+            {
+                throw new ArgumentNullException("AdHocEmailLinkOtpRequest.Token", "Token cannot be empty");
+            }
+            // process request
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
+            return this._apiClient.Post<EmailLinkResponse>("/api/" + apiVersion + "/auth", request);
+        }
+
+        
 
         #endregion
 
@@ -501,6 +537,16 @@ namespace SecureAuth.Sdk
             }
 
             return this._apiClient.Get<BaseResponse>(string.Format("/api/" + apiVersion + "/auth/link/{0}", referenceId));
+        }
+
+        public BaseResponse GetLinkStatusStateful(string referenceId, string ingressCookie)
+        {
+            if (string.IsNullOrEmpty(referenceId))
+            {
+                throw new ArgumentNullException("referenceId", "Reference ID cannot be empty.");
+            }
+
+            return this._apiClient.GetStateful<BaseResponse>(string.Format("/api/" + apiVersion + "/auth/link/{0}", referenceId), ingressCookie);
         }
 
         #endregion

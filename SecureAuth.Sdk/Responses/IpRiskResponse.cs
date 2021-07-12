@@ -9,7 +9,7 @@ namespace SecureAuth.Sdk
         [DataMember(Name = "ip_evaluation", EmitDefaultValue = false)]
         public IpEvaluation IpEvaluation { get; set; }
 
-        public override bool IsSucess()
+        public override bool IsSuccess()
         {
             return ((this.StatusCode == HttpStatusCode.OK) && (this.Status == "verified"));
         }

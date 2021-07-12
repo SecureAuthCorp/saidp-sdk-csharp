@@ -20,7 +20,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="userId">The unique user ID.</param>
         /// <returns>GetFactorResponse</returns>
-        public GetFactorsResponse GetFactors(string userId, bool errorOnAccountStatus = false, string domain = "")
+        public GetFactorsResponse GetFactors(string userId, string domain = "", bool errorOnAccountStatus = false)
         {
             if (string.IsNullOrEmpty(userId))
             {
@@ -43,12 +43,14 @@ namespace SecureAuth.Sdk
             return this._apiClient.Get<GetFactorsResponse>(endpoint);
         }
 
-        public GetFactorsResponse GetUserFactorsQueryString(string userId, string domain = "")
+        public GetFactorsResponse GetUserFactorsQueryString(string userId, string domain = "", bool errorOnAccountStatus = false)
         {
             if (string.IsNullOrEmpty(userId))
             {
                 throw new ArgumentNullException("userId", "User ID cannot be empty.");
             }
+
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
 
             string parameters = "?username="+ userId;
             string endpoint;
@@ -65,6 +67,30 @@ namespace SecureAuth.Sdk
             }
 
             return this._apiClient.Get<GetFactorsResponse>(endpoint);
+        }
+
+        public UserStatusResponse GetUserStatusQueryString(string userId, string domain = "")
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException("userId", "User ID cannot be empty.");
+            }
+
+            string parameters = "?username=" + userId;
+            string endpoint;
+
+
+            if (string.IsNullOrEmpty(domain))
+            {
+                endpoint = string.Format("/api/" + apiVersion + "/users/status{0}", parameters);
+            }
+            else
+            {
+                parameters = parameters + "&domain=" + domain;
+                endpoint = string.Format("/api/" + apiVersion + "/users/status{0}", parameters);
+            }
+
+            return this._apiClient.Get<UserStatusResponse>(endpoint);
         }
 
         /// <summary>
