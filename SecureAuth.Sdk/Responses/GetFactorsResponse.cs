@@ -14,7 +14,7 @@ namespace SecureAuth.Sdk
         [DataMember(Name = "factors", EmitDefaultValue = false)]
         public IList<MultiFactorOption> Factors { get; set; }
 
-        public override bool IsSucess()
+        public override bool IsSuccess()
         {
             return ((this.StatusCode == HttpStatusCode.OK) && (this.Status == "found"));
         }

@@ -4,7 +4,7 @@ using SecureAuth.Sdk.Models;
 namespace SecureAuth.Sdk
 {
     [DataContract]
-    public class PushAcceptRequest : BaseRequest
+    public class PushAcceptSymbolRequest : BaseRequest
     {
         [DataMember(Name = "factor_id", EmitDefaultValue = false)]
         public string FactorId { get; set; }
@@ -12,22 +12,19 @@ namespace SecureAuth.Sdk
         [DataMember(Name = "push_accept_details", EmitDefaultValue = false)]
         public PushAcceptDetails PushAcceptDetails { get; set; }
 
-        [DataMember(Name = "biometricType")]
-        public string BiometricType { get; set; }
-
-        public PushAcceptRequest()
+        public PushAcceptSymbolRequest()
         {
-            this.Type = "push_accept";
+            this.Type = "push_accept_symbol";
         }
 
-        public PushAcceptRequest(string userId, string factorId)
-            : base(userId, "push_accept")
+        public PushAcceptSymbolRequest(string userId, string factorId)
+            : base(userId, "push_accept_symbol")
         {
             this.FactorId = factorId;
         }
 
-        public PushAcceptRequest(string userId, string factorId, string domain = "")
-            : base(userId, "push_accept", domain)
+        public PushAcceptSymbolRequest(string userId, string factorId, string domain = "")
+            : base(userId, "push_accept_symbol", domain)
         {
             this.FactorId = factorId;
         }

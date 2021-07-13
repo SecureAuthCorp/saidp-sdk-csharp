@@ -9,29 +9,16 @@ namespace SecureAuth.Sdk.UnitTests
     [TestClass]
     public class DeviceFingerprintServiceTests
     {
-        // Globals
-        static ISecureAuthService secAuthSvc;
+        static readonly string _secureAuthRealm = ConfigurationManager.AppSettings["SecureAuthRealmUrl"];
+        EnvironmentDeviceFingerprintServiceTest env;
         ValidateDfpRequest _validateDfpRequest;
         ScoreDfpRequest _scoreDfpRequest;
         SaveDfpRequest _saveDfpRequest;
-        static string goodUsername1;
-        static string goodUsername2;
-
-        static readonly string _secureAuthRealm = ConfigurationManager.AppSettings["SecureAuthRealmUrl"];
 
         [ClassInitialize]
-        public static void Init(TestContext testContext)
+        public void Init(TestContext testContext)
         {
-            // Grab values from app.config
-            goodUsername1 = ConfigurationManager.AppSettings["DeviceFingerprintSvc.goodUsername1"];
-            goodUsername2 = ConfigurationManager.AppSettings["DeviceFingerprintSvc.goodUsername2"];
-
-            string apiId = ConfigurationManager.AppSettings["ApiID"];
-            string apiKey = ConfigurationManager.AppSettings["ApiKey"];
-
-            // Init the SecureAuthService
-            Configuration config = new Configuration(_secureAuthRealm, apiId, apiKey);
-            secAuthSvc = new SecureAuthService(config);
+            env = new EnvironmentDeviceFingerprintServiceTest();
         }
 
         [TestInitialize]
@@ -102,21 +89,21 @@ namespace SecureAuth.Sdk.UnitTests
 
             _validateDfpRequest = new ValidateDfpRequest
             {
-                UserId = goodUsername1,
+                UserId = env.goodUsername1,
                 HostAddress = "172.217.3.110",
                 Fingerprint = new FingerprintWrapper { Fingerprint = fingerprint },
             };
 
             _scoreDfpRequest = new ScoreDfpRequest
             {
-                UserId = goodUsername1,
+                UserId = env.goodUsername1,
                 HostAddress = "172.217.3.110",
                 Fingerprint = fingerprint,
             };
 
             _saveDfpRequest = new SaveDfpRequest
             {
-                UserId = goodUsername1,
+                UserId = env.goodUsername1,
                 HostAddress = "172.217.3.110",
                 Fingerprint = fingerprint,
             };
@@ -127,7 +114,7 @@ namespace SecureAuth.Sdk.UnitTests
         {
             // Arrange
             // Act
-            DfpJavascriptLinkResponse res = secAuthSvc.DeviceFingerprint.GetDfpJavascriptLink();
+            DfpJavascriptLinkResponse res = env.secAuthSvc.DeviceFingerprint.GetDfpJavascriptLink();
 
             // Assert
             Assert.AreEqual($"{_secureAuthRealm}/assets/scripts/api/digitalFingerprint.min.js?ver=9.1.0.102", res.Source, true);
@@ -142,7 +129,7 @@ namespace SecureAuth.Sdk.UnitTests
             // Act
             try
             {
-                DfpResponse res = secAuthSvc.DeviceFingerprint.ValidateDfp(_validateDfpRequest);
+                DfpResponse res = env.secAuthSvc.DeviceFingerprint.ValidateDfp(_validateDfpRequest);
 
                 Assert.Fail("No exception was thrown.");
             }
@@ -163,7 +150,7 @@ Parameter name: ValidateDfpRequest.UserId", ex.Message);
             // Act
             try
             {
-                DfpResponse res = secAuthSvc.DeviceFingerprint.ValidateDfp(_validateDfpRequest);
+                DfpResponse res = env.secAuthSvc.DeviceFingerprint.ValidateDfp(_validateDfpRequest);
 
                 Assert.Fail("No exception was thrown.");
             }
@@ -184,7 +171,7 @@ Parameter name: ValidateDfpRequest.HostAddress", ex.Message);
             // Act
             try
             {
-                DfpResponse res = secAuthSvc.DeviceFingerprint.ValidateDfp(_validateDfpRequest);
+                DfpResponse res = env.secAuthSvc.DeviceFingerprint.ValidateDfp(_validateDfpRequest);
 
                 Assert.Fail("No exception was thrown.");
             }
@@ -201,10 +188,10 @@ Parameter name: ValidateDfpRequest.Fingerprint", ex.Message);
         {
             // Arrange
             // Act
-            DfpResponse res = secAuthSvc.DeviceFingerprint.ValidateDfp(_validateDfpRequest);
+            DfpResponse res = env.secAuthSvc.DeviceFingerprint.ValidateDfp(_validateDfpRequest);
 
             // Assert
-            Assert.IsTrue(res.IsSucess());
+            Assert.IsTrue(res.IsSuccess());
             Assert.IsNotNull(res.FingerprintId);
             Assert.IsNotNull(res.FingerprintName);
         }
@@ -221,7 +208,7 @@ Parameter name: ValidateDfpRequest.Fingerprint", ex.Message);
             // Act
             try
             {
-                DfpResponse res = secAuthSvc.DeviceFingerprint.ConfirmDfp(req);
+                DfpResponse res = env.secAuthSvc.DeviceFingerprint.ConfirmDfp(req);
 
                 Assert.Fail("No exception was thrown.");
             }
@@ -239,13 +226,13 @@ Parameter name: ValidateDfpRequest.UserId", ex.Message);
             // Arrange
             ConfirmDfpRequest req = new ConfirmDfpRequest
             {
-                UserId = goodUsername1,
+                UserId = env.goodUsername1,
             };
 
             // Act
             try
             {
-                DfpResponse res = secAuthSvc.DeviceFingerprint.ConfirmDfp(req);
+                DfpResponse res = env.secAuthSvc.DeviceFingerprint.ConfirmDfp(req);
 
                 Assert.Fail("No exception was thrown.");
             }
@@ -261,9 +248,9 @@ Parameter name: ValidateDfpRequest.FingerprintId", ex.Message);
         public void ConfirmDfpTest()
         {
             // Arrange
-            _validateDfpRequest.UserId = goodUsername2;
+            _validateDfpRequest.UserId = env.goodUsername2;
 
-            DfpResponse res = secAuthSvc.DeviceFingerprint.ValidateDfp(_validateDfpRequest);
+            DfpResponse res = env.secAuthSvc.DeviceFingerprint.ValidateDfp(_validateDfpRequest);
 
             ConfirmDfpRequest req = new ConfirmDfpRequest
             {
@@ -272,10 +259,10 @@ Parameter name: ValidateDfpRequest.FingerprintId", ex.Message);
             };
 
             // Act
-            res = secAuthSvc.DeviceFingerprint.ConfirmDfp(req);
+            res = env.secAuthSvc.DeviceFingerprint.ConfirmDfp(req);
 
             // Assert
-            Assert.IsTrue(res.IsSucess());
+            Assert.IsTrue(res.IsSuccess());
             Assert.IsNotNull(res.FingerprintId);
             Assert.IsNotNull(res.FingerprintName);
         }
@@ -289,7 +276,7 @@ Parameter name: ValidateDfpRequest.FingerprintId", ex.Message);
             // Act
             try
             {
-                DfpResponse res = secAuthSvc.DeviceFingerprint.ScoreDfp(_scoreDfpRequest);
+                DfpResponse res = env.secAuthSvc.DeviceFingerprint.ScoreDfp(_scoreDfpRequest);
 
                 Assert.Fail("No exception was thrown.");
             }
@@ -310,7 +297,7 @@ Parameter name: ValidateDfpRequest.UserId", ex.Message);
             // Act
             try
             {
-                DfpResponse res = secAuthSvc.DeviceFingerprint.ScoreDfp(_scoreDfpRequest);
+                DfpResponse res = env.secAuthSvc.DeviceFingerprint.ScoreDfp(_scoreDfpRequest);
 
                 Assert.Fail("No exception was thrown.");
             }
@@ -331,7 +318,7 @@ Parameter name: ValidateDfpRequest.HostAddress", ex.Message);
             // Act
             try
             {
-                DfpResponse res = secAuthSvc.DeviceFingerprint.ScoreDfp(_scoreDfpRequest);
+                DfpResponse res = env.secAuthSvc.DeviceFingerprint.ScoreDfp(_scoreDfpRequest);
 
                 Assert.Fail("No exception was thrown.");
             }
@@ -348,10 +335,10 @@ Parameter name: ValidateDfpRequest.Fingerprint", ex.Message);
         {
             // Arrange
             // Act
-            DfpResponse res = secAuthSvc.DeviceFingerprint.ScoreDfp(_scoreDfpRequest);
+            DfpResponse res = env.secAuthSvc.DeviceFingerprint.ScoreDfp(_scoreDfpRequest);
 
             // Assert
-            Assert.IsTrue(res.IsSucess());
+            Assert.IsTrue(res.IsSuccess());
             Assert.IsNotNull(res.FingerprintId);
             Assert.IsNotNull(res.FingerprintName);
         }
@@ -365,7 +352,7 @@ Parameter name: ValidateDfpRequest.Fingerprint", ex.Message);
             // Act
             try
             {
-                DfpResponse res = secAuthSvc.DeviceFingerprint.SaveDfp(_saveDfpRequest);
+                DfpResponse res = env.secAuthSvc.DeviceFingerprint.SaveDfp(_saveDfpRequest);
 
                 Assert.Fail("No exception was thrown.");
             }
@@ -386,7 +373,7 @@ Parameter name: ValidateDfpRequest.UserId", ex.Message);
             // Act
             try
             {
-                DfpResponse res = secAuthSvc.DeviceFingerprint.SaveDfp(_saveDfpRequest);
+                DfpResponse res = env.secAuthSvc.DeviceFingerprint.SaveDfp(_saveDfpRequest);
 
                 Assert.Fail("No exception was thrown.");
             }
@@ -407,7 +394,7 @@ Parameter name: ValidateDfpRequest.HostAddress", ex.Message);
             // Act
             try
             {
-                DfpResponse res = secAuthSvc.DeviceFingerprint.SaveDfp(_saveDfpRequest);
+                DfpResponse res = env.secAuthSvc.DeviceFingerprint.SaveDfp(_saveDfpRequest);
 
                 Assert.Fail("No exception was thrown.");
             }
@@ -424,10 +411,10 @@ Parameter name: ValidateDfpRequest.Fingerprint", ex.Message);
         {
             // Arrange
             // Act
-            DfpResponse res = secAuthSvc.DeviceFingerprint.SaveDfp(_saveDfpRequest);
+            DfpResponse res = env.secAuthSvc.DeviceFingerprint.SaveDfp(_saveDfpRequest);
 
             // Assert
-            Assert.IsTrue(res.IsSucess());
+            Assert.IsTrue(res.IsSuccess());
             Assert.IsNotNull(res.FingerprintId);
             Assert.IsNotNull(res.FingerprintName);
         }

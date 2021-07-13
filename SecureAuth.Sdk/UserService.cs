@@ -1,10 +1,13 @@
-﻿using System;
+﻿using SecureAuth.Sdk.Models;
+using System;
+using System.Collections.Generic;
 
 namespace SecureAuth.Sdk
 {
     public class UserService : IUserService
     {
         private readonly ApiClient _apiClient;
+        private string apiVersion = "v1";
 
         protected internal UserService(ApiClient apiClient)
         {
@@ -17,25 +20,77 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="userId">The unique user ID.</param>
         /// <returns>GetFactorResponse</returns>
-        public GetFactorsResponse GetFactors(string userId, string domain = "")
+        public GetFactorsResponse GetFactors(string userId, string domain = "", bool errorOnAccountStatus = false)
         {
             if (string.IsNullOrEmpty(userId))
             {
                 throw new ArgumentNullException("userId", "User ID cannot be empty.");
             }
 
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
             string endpoint;
 
             if (string.IsNullOrEmpty(domain))
             {
-                endpoint = string.Format("/api/v1/users/{0}/factors", userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/factors", userId);
             }
             else
             {
-                endpoint = string.Format("/api/v1/users/{0}/{1}/factors", domain, userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/{1}/factors", domain, userId);
             }
 
             return this._apiClient.Get<GetFactorsResponse>(endpoint);
+        }
+
+        public GetFactorsResponse GetUserFactorsQueryString(string userId, string domain = "", bool errorOnAccountStatus = false)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException("userId", "User ID cannot be empty.");
+            }
+
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
+            string parameters = "?username="+ userId;
+            string endpoint;
+
+          
+            if (string.IsNullOrEmpty(domain))
+            {
+                endpoint = string.Format("/api/" + apiVersion + "/users/factors{0}", parameters);
+            }
+            else
+            {
+                parameters = parameters + "&domain=" + domain;
+                endpoint = string.Format("/api/" + apiVersion + "/users/factors{0}", parameters);
+            }
+
+            return this._apiClient.Get<GetFactorsResponse>(endpoint);
+        }
+
+        public UserStatusResponse GetUserStatusQueryString(string userId, string domain = "")
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException("userId", "User ID cannot be empty.");
+            }
+
+            string parameters = "?username=" + userId;
+            string endpoint;
+
+
+            if (string.IsNullOrEmpty(domain))
+            {
+                endpoint = string.Format("/api/" + apiVersion + "/users/status{0}", parameters);
+            }
+            else
+            {
+                parameters = parameters + "&domain=" + domain;
+                endpoint = string.Format("/api/" + apiVersion + "/users/status{0}", parameters);
+            }
+
+            return this._apiClient.Get<UserStatusResponse>(endpoint);
         }
 
         /// <summary>
@@ -55,11 +110,11 @@ namespace SecureAuth.Sdk
 
             if (string.IsNullOrEmpty(domain))
             {
-                endpoint = string.Format("/api/v1/users/{0}", userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}", userId);
             }
             else
             {
-                endpoint = string.Format("/api/v1/users/{0}/{1}", domain, userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/{1}", domain, userId);
             }
 
             return this._apiClient.Get<GetUserProfileResponse>(endpoint);
@@ -83,11 +138,11 @@ namespace SecureAuth.Sdk
 
             if (string.IsNullOrEmpty(domain))
             {
-                endpoint = string.Format("/api/v1/users/{0}", userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}", userId);
             }
             else
             {
-                endpoint = string.Format("/api/v1/users/{0}/{1}", domain, userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/{1}", domain, userId);
             }            
 
             return this._apiClient.Post<BaseResponse>(endpoint, request);
@@ -100,7 +155,7 @@ namespace SecureAuth.Sdk
         /// <returns>BaseResponse</returns>
         public BaseResponse CreateUser(CreateUserRequest request)
         {
-            return this._apiClient.Post<BaseResponse>("/api/v1/users", request);
+            return this._apiClient.Post<BaseResponse>("/api/" + apiVersion + "/users", request);
         }
 
         /// <summary>
@@ -121,11 +176,11 @@ namespace SecureAuth.Sdk
 
             if (string.IsNullOrEmpty(domain))
             {
-                endpoint = string.Format("/api/v1/users/{0}", userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}", userId);
             }
             else
             {
-                endpoint = string.Format("/api/v1/users/{0}/{1}", domain, userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/{1}", domain, userId);
             }
 
             return this._apiClient.Post<BaseResponse>(endpoint, request);
@@ -138,22 +193,24 @@ namespace SecureAuth.Sdk
         /// <param name="userId">The unique user ID.</param>
         /// <param name="request">The reset password request</param>
         /// <returns>BaseResponse</returns>
-        public BaseResponse ResetPassword(string userId, ResetPasswordRequest request, string domain = "")
+        public BaseResponse ResetPassword(string userId, ResetPasswordRequest request, string domain = "", bool errorOnAccountStatus = false)
         {
             if (string.IsNullOrEmpty(userId))
             {
                 throw new ArgumentNullException("userId", "User ID cannot be empty.");
             }
 
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
             string endpoint;
 
             if (string.IsNullOrEmpty(domain))
             {
-                endpoint = string.Format("/api/v1/users/{0}/resetpwd", userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/resetpwd", userId);
             }
             else
             {
-                endpoint = string.Format("/api/v1/users/{0}/{1}/resetpwd", domain, userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/{1}/resetpwd", domain, userId);
             }
 
             return this._apiClient.Post<BaseResponse>(endpoint, request);
@@ -166,7 +223,7 @@ namespace SecureAuth.Sdk
         /// <param name="userId">The unique user ID.</param>
         /// <param name="groupName">The LDAP group name.</param>
         /// <returns>BaseResponse</returns>
-        public BaseResponse AddGroupToUser(string userId, string groupName, string domain = "")
+        public BaseResponse AddUserToGroup(string userId, string groupName, string domain = "")
         {
             if (string.IsNullOrEmpty(userId))
             {
@@ -181,11 +238,11 @@ namespace SecureAuth.Sdk
 
             if (string.IsNullOrEmpty(domain))
             {
-                endpoint = string.Format("/api/v1/users/{0}/groups/{1}", userId, Uri.EscapeDataString(groupName));
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/groups/{1}", userId, Uri.EscapeDataString(groupName));
             }
             else
             {
-                endpoint = string.Format("/api/v1/users/{0}/{1}/groups/{2}", domain, userId, Uri.EscapeDataString(groupName));
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/{1}/groups/{2}", domain, userId, Uri.EscapeDataString(groupName));
             }
 
             return this._apiClient.Post<BaseResponse>(endpoint);
@@ -210,14 +267,64 @@ namespace SecureAuth.Sdk
 
             if (string.IsNullOrEmpty(domain))
             {
-                endpoint = string.Format("/api/v1/users/{0}/groups", userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/groups", userId);
             }
             else
             {
-                endpoint = string.Format("/api/v1/users/{0}/{1}/groups", domain, userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/{1}/groups", domain, userId);
             }
 
             return this._apiClient.Post<GroupAssociateResponse>(endpoint, request);
+        }
+
+        public GroupAssociateResponse AddGroupsToUserQueryString(string userId, GroupAssociateRequest request, string domain = "")
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException("userId", "User ID cannot be empty.");
+            }
+
+            string endpoint;
+            string param = "?username=" + userId;
+
+            if (string.IsNullOrEmpty(domain))
+            {
+                endpoint = string.Format("/api/" + apiVersion + "/users/groups{0}", param);
+            }
+            else
+            {
+                param = param + "&domain=" + domain;
+                endpoint = string.Format("/api/" + apiVersion + "/users/groups{0}", param);
+            }
+
+            return this._apiClient.Post<GroupAssociateResponse>(endpoint, request);
+        }
+
+        public BaseResponse AddUserToGroupQueryString(string groupName, string userId, string domain = "")
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException("userId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(groupName))
+            {
+                throw new ArgumentNullException("groupName", "Group name cannot be empty.");
+            }
+
+            string endpoint;
+            string param = "?username=" + userId;
+
+            if (string.IsNullOrEmpty(domain))
+            {
+                endpoint = string.Format("/api/" + apiVersion + "/users/groups/{0}/{1}", Uri.EscapeDataString(groupName), param);
+            }
+            else
+            {
+                param = param + "&domain=" + domain;
+                endpoint = string.Format("/api/" + apiVersion + "/users/groups/{0}/{1}", Uri.EscapeDataString(groupName), domain, userId);
+            }
+
+            return this._apiClient.Post<BaseResponse>(endpoint);
         }
 
         /// <summary>
@@ -236,11 +343,11 @@ namespace SecureAuth.Sdk
 
             if (string.IsNullOrEmpty(domain))
             {
-                endpoint = string.Format("/api/v1/users/{0}/throttle", userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/throttle", userId);
             }
             else
             {
-                endpoint = string.Format("/api/v1/users/{0}/{1}/throttle", domain, userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/{1}/throttle", domain, userId);
             }
 
             return this._apiClient.Get<ThrottleResponse>(endpoint);
@@ -262,11 +369,11 @@ namespace SecureAuth.Sdk
 
             if (string.IsNullOrEmpty(domain))
             {
-                endpoint = string.Format("/api/v1/users/{0}/throttle", userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/throttle", userId);
             }
             else
             {
-                endpoint = string.Format("/api/v1/users/{0}/{1}/throttle", domain, userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/{1}/throttle", domain, userId);
             }
 
             return this._apiClient.Put<ThrottleResponse>(endpoint);
@@ -288,14 +395,56 @@ namespace SecureAuth.Sdk
 
             if (string.IsNullOrEmpty(domain))
             {
-                endpoint = string.Format("/api/v1/users/{0}/otpvalidatethrottle", userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/otpvalidatethrottle", userId);
             }
             else
             {
-                endpoint = string.Format("/api/v1/users/{0}/{1}/otpvalidatethrottle", domain, userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/{1}/otpvalidatethrottle", domain, userId);
             }
 
             return this._apiClient.Get<ThrottleResponse>(endpoint);
+        }
+
+        public UserStatusResponse GetUserStatus(string userId, string domain = "")
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentException("userId", "User ID cannot be empty.");
+            }
+
+            string endpoint;
+
+            if (string.IsNullOrEmpty(domain))
+            {
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/status", userId);
+            }
+            else
+            {
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/{1}/status", domain, userId);
+            }
+
+            return this._apiClient.Get<UserStatusResponse>(endpoint);
+        }
+
+        public BaseResponse SetUserStatus(string userId, SetUserStatusRequest request, string domain = "")
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException("userId", "User ID cannot be empty.");
+            }
+
+            string endpoint;
+
+            if (string.IsNullOrEmpty(domain))
+            {
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/status", userId);
+            }
+            else
+            {
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/{1}/status", domain, userId);
+            }
+
+            return this._apiClient.Post<BaseResponse>(endpoint, request);
         }
 
         /// <summary>
@@ -314,11 +463,11 @@ namespace SecureAuth.Sdk
 
             if (string.IsNullOrEmpty(domain))
             {
-                endpoint = string.Format("/api/v1/users/{0}/otpvalidatethrottle", userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/otpvalidatethrottle", userId);
             }
             else
             {
-                endpoint = string.Format("/api/v1/users/{0}/{1}/otpvalidatethrottle", domain, userId);
+                endpoint = string.Format("/api/" + apiVersion + "/users/{0}/{1}/otpvalidatethrottle", domain, userId);
             }
 
             return this._apiClient.Put<ThrottleResponse>(endpoint);

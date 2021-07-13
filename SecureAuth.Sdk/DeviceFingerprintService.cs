@@ -6,6 +6,7 @@ namespace SecureAuth.Sdk
     public class DeviceFingerprintService : IDeviceFingerprintService
     {
         private readonly ApiClient _apiClient;
+        private string apiVersion = "v2";
 
         protected internal DeviceFingerprintService(ApiClient apiClient)
         {
@@ -20,7 +21,7 @@ namespace SecureAuth.Sdk
         /// <returns>DfpJavascriptLinkResponse</returns>
         public DfpJavascriptLinkResponse GetDfpJavascriptLink()
         {
-            return this._apiClient.Get<DfpJavascriptLinkResponse>("/api/v1/dfp/js");
+            return this._apiClient.Get<DfpJavascriptLinkResponse>("/api/" + apiVersion + "/dfp/js");
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("ValidateDfpRequest.Fingerprint.UserAgent", "User-Agent cannot be empty.");
             }
 
-            return this._apiClient.Post<DfpResponse>("/api/v1/dfp/validate", request);
+            return this._apiClient.Post<DfpResponse>("/api/" + apiVersion + "/dfp/validate", request);
         }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("ValidateDfpRequest.FingerprintId", "Fingerprint ID cannot be empty.");
             }
 
-            return this._apiClient.Post<DfpResponse>("/api/v1/dfp/confirm", request);
+            return this._apiClient.Post<DfpResponse>("/api/" + apiVersion + "/dfp/confirm", request);
         }
 
         /// <summary>
@@ -97,7 +98,7 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("ValidateDfpRequest.Fingerprint.UserAgent", "User-Agent cannot be empty.");
             }
 
-            return this._apiClient.Post<DfpResponse>("/api/v1/dfp/score", request);
+            return this._apiClient.Post<DfpResponse>("/api/" + apiVersion + "/dfp/score", request);
         }
 
         /// <summary>
@@ -125,7 +126,7 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("ValidateDfpRequest.Fingerprint.UserAgent", "User-Agent cannot be empty.");
             }
 
-            return this._apiClient.Post<DfpResponse>("/api/v1/dfp/save", request);
+            return this._apiClient.Post<DfpResponse>("/api/" + apiVersion + "/dfp/save", request);
         }
         #endregion
     }

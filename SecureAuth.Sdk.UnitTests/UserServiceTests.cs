@@ -9,52 +9,19 @@ namespace SecureAuth.Sdk.UnitTests
     [TestClass]
     public class UserServiceTests
     {
-        // Globals
-        static ISecureAuthService secAuthSvc;
-        static string goodUsername;
-        static string badUsername;
-        static string currentPassword;
-        static string newPassword1;
-        static string newPassword2;
-        static string newFirstName;
-        static string newLastName;
-        static string newUserId;
-        static string groupName1;
-        static string groupName2;
-        static string goodDomain;
-        static string badDomain;
+        static EnvironmentUserServiceTest env;
 
         [ClassInitialize]
         public static void Init(TestContext testContext)
         {
-            // Grab values from app.config
-            goodUsername = ConfigurationManager.AppSettings["UserSvc.goodUsername"];
-            badUsername = ConfigurationManager.AppSettings["UserSvc.badUsername"];
-            currentPassword = ConfigurationManager.AppSettings["UserSvc.currentPassword"];
-            newPassword1 = ConfigurationManager.AppSettings["UserSvc.newPassword1"];
-            newPassword2 = ConfigurationManager.AppSettings["UserSvc.newPassword2"];
-            newFirstName = ConfigurationManager.AppSettings["UserSvc.newFirstName"];
-            newLastName = ConfigurationManager.AppSettings["UserSvc.newLastName"];
-            newUserId = ConfigurationManager.AppSettings["UserSvc.newUserId"];
-            groupName1 = ConfigurationManager.AppSettings["UserSvc.groupName1"];
-            groupName2 = ConfigurationManager.AppSettings["UserSvc.groupName2"];
-            goodDomain = ConfigurationManager.AppSettings["AuthSvc.goodDomain"];
-            badDomain = ConfigurationManager.AppSettings["AuthSvc.badDomain"];
-
-            string secureAuthRealm = ConfigurationManager.AppSettings["SecureAuthRealmUrl"];
-            string apiId = ConfigurationManager.AppSettings["ApiID"];
-            string apiKey = ConfigurationManager.AppSettings["ApiKey"];
-
-            // Init the SecureAuthService
-            Configuration config = new Configuration(secureAuthRealm, apiId, apiKey);
-            secAuthSvc = new SecureAuthService(config);
+            env = new EnvironmentUserServiceTest();
         }
 
         [TestMethod]
         public void RetrieveFactorsGoodUserTest()
         {
             // Act
-            GetFactorsResponse res = secAuthSvc.User.GetFactors(goodUsername);
+            GetFactorsResponse res = env.secAuthSvc.User.GetFactors(env.goodUsername);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Found, res.Status);
@@ -64,7 +31,7 @@ namespace SecureAuth.Sdk.UnitTests
         public void RetrieveProfileGoodUserTest()
         {
             // Act
-            GetUserProfileResponse res = secAuthSvc.User.GetUserProfile(goodUsername);
+            GetUserProfileResponse res = env.secAuthSvc.User.GetUserProfile(env.goodUsername);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Found, res.Status);
@@ -75,10 +42,10 @@ namespace SecureAuth.Sdk.UnitTests
         {
             // Arrange
             UpdateUserProfileRequest req = new UpdateUserProfileRequest();
-            req.Properties.Add("firstName", newFirstName);
+            req.Properties.Add("firstName", env.newFirstName);
 
             // Act
-            BaseResponse res = secAuthSvc.User.UpdateUserProfile(goodUsername, req);
+            BaseResponse res = env.secAuthSvc.User.UpdateUserProfile(env.goodUsername, req);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
@@ -92,7 +59,7 @@ namespace SecureAuth.Sdk.UnitTests
             req.KnowledgeBase.Add("kbq1", new KbProperty("Which Voltron lion is your favorite?", "The black one"));
 
             // Act
-            BaseResponse res = secAuthSvc.User.UpdateUserProfile(goodUsername, req);
+            BaseResponse res = env.secAuthSvc.User.UpdateUserProfile(env.goodUsername, req);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
@@ -103,15 +70,15 @@ namespace SecureAuth.Sdk.UnitTests
         {
             // Arrange
             CreateUserRequest req = new CreateUserRequest();
-            req.Domain = goodDomain;
-            req.UserId = newUserId;
-            req.Password = newPassword2;
-            req.Properties.Add("firstName", newFirstName);
-            req.Properties.Add("lastName", newLastName);
+            req.Domain = env.goodDomain;
+            req.UserId = env.newUserId;
+            req.Password = env.newPassword2;
+            req.Properties.Add("firstName", env.newFirstName);
+            req.Properties.Add("lastName", env.newLastName);
             req.KnowledgeBase.Add("kbq1", new KbProperty("Which day were you born?", "Tuesday"));
 
             // Act
-            BaseResponse res = secAuthSvc.User.CreateUser(req);
+            BaseResponse res = env.secAuthSvc.User.CreateUser(req);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
@@ -121,7 +88,7 @@ namespace SecureAuth.Sdk.UnitTests
             ValidatePasswordRequest req2 = new ValidatePasswordRequest(req.UserId, req.Password, req.Domain);
 
             // Act
-            BaseResponse res2 = secAuthSvc.Authenticate.ValidatePassword(req2);
+            BaseResponse res2 = env.secAuthSvc.Authenticate.ValidatePassword(req2);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Valid, res2.Status);
@@ -133,22 +100,22 @@ namespace SecureAuth.Sdk.UnitTests
             // Arrange
             ChangePasswordRequest req = new ChangePasswordRequest
             {
-                CurrentPassword = currentPassword,
-                NewPassword = newPassword1
+                CurrentPassword = env.currentPassword,
+                NewPassword = env.newPassword1
             };
 
             // Act
-            BaseResponse res = secAuthSvc.User.ChangePassword(goodUsername, req);
+            BaseResponse res = env.secAuthSvc.User.ChangePassword(env.goodUsername, req);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
 
             // Validate new password
             // Arrange
-            ValidatePasswordRequest vReq = new ValidatePasswordRequest(goodUsername, newPassword1, goodDomain);
+            ValidatePasswordRequest vReq = new ValidatePasswordRequest(env.goodUsername, env.newPassword1, env.goodDomain);
 
             // Act
-            BaseResponse vRes = secAuthSvc.Authenticate.ValidatePassword(vReq);
+            BaseResponse vRes = env.secAuthSvc.Authenticate.ValidatePassword(vReq);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Valid, vRes.Status);
@@ -160,22 +127,22 @@ namespace SecureAuth.Sdk.UnitTests
             // Arrange
             ChangePasswordRequest req = new ChangePasswordRequest
             {
-                CurrentPassword = currentPassword,
-                NewPassword = newPassword1
+                CurrentPassword = env.currentPassword,
+                NewPassword = env.newPassword1
             };
 
             // Act
-            BaseResponse res = secAuthSvc.User.ChangePassword(goodUsername, req, goodDomain);
+            BaseResponse res = env.secAuthSvc.User.ChangePassword(env.goodUsername, req, env.goodDomain);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
 
             // Validate new password
             // Arrange
-            ValidatePasswordRequest vReq = new ValidatePasswordRequest(goodUsername, newPassword1, goodDomain);
+            ValidatePasswordRequest vReq = new ValidatePasswordRequest(env.goodUsername, env.newPassword1, env.goodDomain);
 
             // Act
-            BaseResponse vRes = secAuthSvc.Authenticate.ValidatePassword(vReq);
+            BaseResponse vRes = env.secAuthSvc.Authenticate.ValidatePassword(vReq);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Valid, vRes.Status);
@@ -187,21 +154,21 @@ namespace SecureAuth.Sdk.UnitTests
             // Arrange
             ResetPasswordRequest req = new ResetPasswordRequest
             {
-                NewPassword = newPassword2
+                NewPassword = env.newPassword2
             };
 
             // Act
-            BaseResponse res = secAuthSvc.User.ResetPassword(goodUsername, req);
+            BaseResponse res = env.secAuthSvc.User.ResetPassword(env.goodUsername, req);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
 
             // Validate new password
             // Arrange
-            ValidatePasswordRequest vReq = new ValidatePasswordRequest(goodUsername, newPassword2, goodDomain);
+            ValidatePasswordRequest vReq = new ValidatePasswordRequest(env.goodUsername, env.newPassword2, env.goodDomain);
 
             // Act
-            BaseResponse vRes = secAuthSvc.Authenticate.ValidatePassword(vReq);
+            BaseResponse vRes = env.secAuthSvc.Authenticate.ValidatePassword(vReq);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Valid, vRes.Status);
@@ -213,21 +180,21 @@ namespace SecureAuth.Sdk.UnitTests
             // Arrange
             ResetPasswordRequest req = new ResetPasswordRequest
             {
-                NewPassword = newPassword2
+                NewPassword = env.newPassword2
             };
 
             // Act
-            BaseResponse res = secAuthSvc.User.ResetPassword(goodUsername, req, goodDomain);
+            BaseResponse res = env.secAuthSvc.User.ResetPassword(env.goodUsername, req, env.goodDomain);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
 
             // Validate new password
             // Arrange
-            ValidatePasswordRequest vReq = new ValidatePasswordRequest(goodUsername, newPassword2, goodDomain);
+            ValidatePasswordRequest vReq = new ValidatePasswordRequest(env.goodUsername, env.newPassword2, env.goodDomain);
 
             // Act
-            BaseResponse vRes = secAuthSvc.Authenticate.ValidatePassword(vReq);
+            BaseResponse vRes = env.secAuthSvc.Authenticate.ValidatePassword(vReq);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Valid, vRes.Status);
@@ -237,7 +204,7 @@ namespace SecureAuth.Sdk.UnitTests
         public void AddGroupToUserTest()
         {
             // Act
-            BaseResponse res = secAuthSvc.User.AddGroupToUser(goodUsername, groupName1);
+            BaseResponse res = env.secAuthSvc.User.AddUserToGroup(env.goodUsername, env.groupName1);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
@@ -247,7 +214,7 @@ namespace SecureAuth.Sdk.UnitTests
         public void AddGroupToUserWithDomainTest()
         {
             // Act
-            BaseResponse res = secAuthSvc.User.AddGroupToUser(goodUsername, groupName1, goodDomain);
+            BaseResponse res = env.secAuthSvc.User.AddUserToGroup(env.goodUsername, env.groupName1, env.goodDomain);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
@@ -258,11 +225,11 @@ namespace SecureAuth.Sdk.UnitTests
         {
             // Arrange
             GroupAssociateRequest req = new GroupAssociateRequest();
-            req.GroupNames.Add(groupName1);
-            req.GroupNames.Add(groupName2);
+            req.GroupNames.Add(env.groupName1);
+            req.GroupNames.Add(env.groupName2);
 
             // Act
-            BaseResponse res = secAuthSvc.User.AddGroupsToUser(goodUsername, req);
+            BaseResponse res = env.secAuthSvc.User.AddGroupsToUser(env.goodUsername, req);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
@@ -273,11 +240,75 @@ namespace SecureAuth.Sdk.UnitTests
         {
             // Arrange
             GroupAssociateRequest req = new GroupAssociateRequest();
-            req.GroupNames.Add(groupName1);
-            req.GroupNames.Add(groupName2);
+            req.GroupNames.Add(env.groupName1);
+            req.GroupNames.Add(env.groupName2);
 
             // Act
-            BaseResponse res = secAuthSvc.User.AddGroupsToUser(goodUsername, req, goodDomain);
+            BaseResponse res = env.secAuthSvc.User.AddGroupsToUser(env.goodUsername, req, env.goodDomain);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
+        }
+
+        [TestMethod]
+        public void ValidateGetUserFactorsQueryStringTest()
+        {
+            // Arrange
+
+            // Act
+            GetFactorsResponse res = env.secAuthSvc.User.GetUserFactorsQueryString(env.goodUsername, env.goodDomain);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Found, res.Status);
+        }
+
+        [TestMethod]
+        public void ValidateAddGroupsToUserQueryStringTest()
+        {
+            // Arrange
+            GroupAssociateRequest request = new GroupAssociateRequest();
+            request.GroupNames.Add(env.groupName1);
+            request.GroupNames.Add(env.groupName2);
+
+            // Act
+            GroupAssociateResponse res = env.secAuthSvc.User.AddGroupsToUserQueryString(env.goodUsername, request, env.goodDomain);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
+        }
+
+        [TestMethod]
+        public void ValidateAddUserToGroupQueryStringTest()
+        {
+            // Arrange
+
+            // Act
+            BaseResponse res = env.secAuthSvc.User.AddUserToGroupQueryString(env.groupName1,env.goodUsername, env.goodDomain);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);
+        }
+
+        [TestMethod]
+        public void ValidateGetUserStatusTest()
+        {
+            // Arrange
+
+            // Act
+            UserStatusResponse res = env.secAuthSvc.User.GetUserStatus(env.goodUsername, env.goodDomain);
+
+            // Assert
+            Assert.AreEqual(Constants.ResponseStatus.Valid, res.Status);
+        }
+
+        [TestMethod]
+        public void ValidateSetUserStatusTest()
+        {
+            // Arrange
+            SetUserStatusRequest request = new SetUserStatusRequest("lock");
+
+            // Act
+            BaseResponse res = env.secAuthSvc.User.SetUserStatus(env.goodUsername, request, env.goodDomain);
 
             // Assert
             Assert.AreEqual(Constants.ResponseStatus.Success, res.Status);

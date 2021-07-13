@@ -99,6 +99,19 @@ namespace SecureAuth.Sdk
         }
 
         /// <summary>
+        /// Gets the Behavioral Biometrics Service instance for the current
+        /// SecureAuth Service instance. Use for making calls to the 
+        /// /api/v2/behavebio endpoint.
+        /// </summary>
+        public IBehavioralBiometricsService BehavioralBiometricsService
+        {
+            get
+            {
+                return new BehavioralBiometricsService(new ApiClient(this.Configuration));
+            }
+        }
+
+        /// <summary>
         /// Gets the Access History Service instance for the current
         /// SecureAuth Service instance. Use for making calls to the 
         /// /api/v1/accesshistory endpoint.

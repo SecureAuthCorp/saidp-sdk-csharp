@@ -1,11 +1,14 @@
-﻿using System;
+﻿using SecureAuth.Sdk.Models;
+using System;
 using System.Linq;
+using System.Net;
 
 namespace SecureAuth.Sdk
 {
     public class AuthenticationService : IAuthenticationService
     {
         private readonly ApiClient _apiClient;
+        private string apiVersion = "v2";
 
         protected internal AuthenticationService(ApiClient apiClient)
         {
@@ -21,7 +24,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">ValidateUserIdRequest</param>
         /// <returns>BaseResponse</returns>
-        public BaseResponse ValidateUserId(ValidateUserIdRequest request)
+        public BaseResponse ValidateUserId(ValidateUserIdRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -30,7 +33,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return Validate(request);
+            return Validate(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -39,7 +42,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">ValidatePasswordRequest</param>
         /// <returns>BaseResponse</returns>
-        public BaseResponse ValidatePassword(ValidatePasswordRequest request)
+        public BaseResponse ValidatePassword(ValidatePasswordRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -52,7 +55,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return Validate(request);
+            return Validate(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -61,7 +64,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">ValidateKbaRequest</param>
         /// <returns>BaseResponse</returns>
-        public BaseResponse ValidateKba(ValidateKbaRequest request)
+        public BaseResponse ValidateKba(ValidateKbaRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -78,7 +81,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return Validate(request);
+            return Validate(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -86,7 +89,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">ValidateOathRequest</param>
         /// <returns>BaseResponse</returns>
-        public BaseResponse ValidateOath(ValidateOathRequest request)
+        public BaseResponse ValidateOath(ValidateOathRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -103,7 +106,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return Validate(request);
+            return Validate(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -112,7 +115,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">ValidatePasswordRequest</param>
         /// <returns>BaseResponse</returns>
-        public BaseResponse ValidatePin(ValidatePinRequest request)
+        public BaseResponse ValidatePin(ValidatePinRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -125,7 +128,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return Validate(request);
+            return Validate(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -134,7 +137,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">ValidateOtpRequest</param>
         /// <returns>BaseResponse</returns>
-        public BaseResponse ValidateOtp(ValidateOtpRequest request)
+        public BaseResponse ValidateOtp(ValidateOtpRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -146,8 +149,9 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("ValidateOtpRequest.Otp", "OTP cannot be empty.");
             }
 
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
             //process request
-            return this._apiClient.Post<BaseResponse>("/api/v1/otp/validate", request);
+            return this._apiClient.Post<BaseResponse>("/api/" + apiVersion + "/otp/validate", request);
         }
         #endregion
 
@@ -159,7 +163,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">EmailOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendEmailOtp(EmailOtpRequest request)
+        public SendOtpResponse SendEmailOtp(EmailOtpRequest request, bool errorOnAccountStatus = false)
         {
             string[] validFactorIds = { "Email1", "Email2", "Email3", "Email4" };
 
@@ -178,7 +182,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -187,7 +191,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">HelpDeskOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendHelpDeskOtp(HelpDeskOtpRequest request)
+        public SendOtpResponse SendHelpDeskOtp(HelpDeskOtpRequest request, bool errorOnAccountStatus = false)
         {
             string[] validFactorIds = { "HelpDesk1", "HelpDesk2" };
 
@@ -206,7 +210,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -215,7 +219,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">PhonecallOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendPhonecallOtp(PhonecallOtpRequest request)
+        public SendOtpResponse SendPhonecallOtp(PhonecallOtpRequest request, bool errorOnAccountStatus = false)
         {
             string[] validFactorIds = { "Phone1", "Phone2", "Phone3", "Phone4" };
 
@@ -234,7 +238,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -243,7 +247,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">PushOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendPushOtp(PushOtpRequest request)
+        public SendOtpResponse SendPushOtp(PushOtpRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -254,14 +258,9 @@ namespace SecureAuth.Sdk
             {
                 throw new ArgumentNullException("PushOtpRequest.FactorId", "FactorId cannot be empty.");
             }
-            Guid temp;
-            if (!Guid.TryParseExact(request.FactorId, "N", out temp))
-            {
-                throw new ArgumentException("Invalid FactorId format. Must be a GUID.", "PushOtpRequest.FactorId");
-            }
 
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -270,7 +269,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">SmsOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendSmsOtp(SmsOtpRequest request)
+        public SendOtpResponse SendSmsOtp(SmsOtpRequest request, bool errorOnAccountStatus = false)
         {
             string[] validFactorIds = { "Phone1", "Phone2", "Phone3", "Phone4" };
 
@@ -289,7 +288,7 @@ namespace SecureAuth.Sdk
             }
 
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -297,7 +296,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">AdHocSmsOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendAdHocSmsOtp(AdHocSmsOtpRequest request)
+        public SendOtpResponse SendAdHocSmsOtp(AdHocSmsOtpRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -309,7 +308,7 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("AdHocSmsOtpRequest.Token", "Token cannot be empty");
             }
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -317,7 +316,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">AdHocPhonecallOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendAdHocPhonecallOtp(AdHocPhonecallOtpRequest request)
+        public SendOtpResponse SendAdHocPhonecallOtp(AdHocPhonecallOtpRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -329,7 +328,7 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("AdHocPhonecallOtpRequest.Token", "Token cannot be empty");
             }
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
         /// <summary>
@@ -337,7 +336,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">AdHocEmailOtpRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public SendOtpResponse SendAdHocEmailOtp(AdHocEmailOtpRequest request)
+        public SendOtpResponse SendAdHocEmailOtp(AdHocEmailOtpRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -349,9 +348,93 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("AdHocEmailOtpRequest.Token", "Token cannot be empty");
             }
             // process request
-            return SendOtp(request);
+            return SendOtp(request, errorOnAccountStatus ? ApiVersion.V1 : ApiVersion.V2);
         }
 
+        public SmsLinkResponse SendSmsLink(SmsLinkOtpRequest request, bool errorOnAccountStatus = false)
+        {
+            string[] validFactorIds = { "Phone1", "Phone2", "Phone3", "Phone4" };
+
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("SendSmsLink.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.FactorId))
+            {
+                throw new ArgumentNullException("SendSmsLink.FactorId", "FactorId cannot be empty.");
+            }
+            if (!validFactorIds.Contains(request.FactorId))
+            {
+                throw new ArgumentException("Invalid FactorId.", "SendSmsLink.FactorId");
+            }
+
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
+            // process request
+            return this._apiClient.Post<SmsLinkResponse>("/api/" + apiVersion + "/auth", request);
+        }
+
+        public EmailLinkResponse SendEmailLinkOtp(EmailLinkOtpRequest request, bool errorOnAccountStatus = false)
+        {
+            string[] validFactorIds = { "Email1", "Email2", "Email3", "Email4" };
+
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("EmailOtpRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.FactorId))
+            {
+                throw new ArgumentNullException("EmailOtpRequest.FactorId", "FactorId cannot be empty.");
+            }
+            if (!validFactorIds.Contains(request.FactorId))
+            {
+                throw new ArgumentException("Invalid FactorId.", "EmailOtpRequest.FactorId");
+            }
+
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
+            // process request
+            return this._apiClient.Post<EmailLinkResponse>("/api/" + apiVersion + "/auth", request);
+        }
+
+        public SmsLinkResponse SendAdHocSmsLinkOtp(AdHocSmsLinkOtpRequest request, bool errorOnAccountStatus = false)
+        {
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("AdHocSmsLinkOtpRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.Token))
+            {
+                throw new ArgumentNullException("AdHocSmsLinkOtpRequest.Token", "Token cannot be empty");
+            }
+            // process request
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
+            return this._apiClient.Post<SmsLinkResponse>("/api/" + apiVersion + "/auth", request);
+        }
+
+
+        public EmailLinkResponse SendAdHocEmailLinkOtp(AdHocEmailLinkOtpRequest request, bool errorOnAccountStatus = false)
+        {
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("AdHocEmailLinkOtpRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.Token))
+            {
+                throw new ArgumentNullException("AdHocEmailLinkOtpRequest.Token", "Token cannot be empty");
+            }
+            // process request
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
+            return this._apiClient.Post<EmailLinkResponse>("/api/" + apiVersion + "/auth", request);
+        }
+
+        
 
         #endregion
 
@@ -362,7 +445,7 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">PushAcceptRequest</param>
         /// <returns>SendOtpResponse</returns>
-        public PushAcceptResponse SendPushAccept(PushAcceptRequest request)
+        public PushAcceptResponse SendPushAccept(PushAcceptRequest request, bool errorOnAccountStatus = false)
         {
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
@@ -373,14 +456,52 @@ namespace SecureAuth.Sdk
             {
                 throw new ArgumentNullException("PushAcceptRequest.FactorId", "FactorId cannot be empty.");
             }
-            Guid temp;
-            if (!Guid.TryParseExact(request.FactorId, "N", out temp))
-            {
-                throw new ArgumentException("Invalid FactorId format. Must be a GUID.", "PushAcceptRequest.FactorId");
-            }
+
+
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
 
             // process request
-            return this._apiClient.Post<PushAcceptResponse>("/api/v1/auth", request);
+            return this._apiClient.Post<PushAcceptResponse>("/api/" + apiVersion + "/auth", request);
+        }
+
+        public PushBiometricResponse SendPushBiometric(PushBiometricRequest request, bool errorOnAccountStatus = false)
+        {
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("PushBiometricRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.FactorId))
+            {
+                throw new ArgumentNullException("PushBiometricRequest.FactorId", "FactorId cannot be empty.");
+            }
+            if (request.BiometricType == null)
+            {
+                throw new ArgumentNullException("PushBiometricRequest.FactorId", "BiometricType cannot be empty.");
+            }
+
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
+            // process request
+            return this._apiClient.Post<PushBiometricResponse>("/api/" + apiVersion + "/auth", request);
+        }
+
+        public PushAcceptSymbolResponse SendPushAcceptSymbol(PushAcceptSymbolRequest request, bool errorOnAccountStatus = false)
+        {
+            // sanitize request
+            if (string.IsNullOrEmpty(request.UserId))
+            {
+                throw new ArgumentNullException("PushAcceptSymbolRequest.UserId", "User ID cannot be empty.");
+            }
+            if (string.IsNullOrEmpty(request.FactorId))
+            {
+                throw new ArgumentNullException("PushAcceptSymbolRequest.FactorId", "FactorId cannot be empty.");
+            }
+
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
+            // process request
+            return this._apiClient.Post<PushAcceptSymbolResponse>("/api/" + apiVersion + "/auth", request);
         }
 
         /// <summary>
@@ -395,21 +516,52 @@ namespace SecureAuth.Sdk
                 throw new ArgumentNullException("referenceId", "Reference ID cannot be empty.");
             }
 
-            return this._apiClient.Get<BaseResponse>(string.Format("/api/v1/auth/{0}", referenceId));
+            return this._apiClient.Get<BaseResponse>(string.Format("/api/" + apiVersion + "/auth/{0}", referenceId));
         }
+
+        public BaseResponse GetPushAcceptStatusStateful(string referenceId, string ingressCookie)
+        {
+            if (string.IsNullOrEmpty(referenceId))
+            {
+                throw new ArgumentNullException("referenceId", "Reference ID cannot be empty.");
+            }
+
+            return this._apiClient.GetStateful<BaseResponse>(string.Format("/api/" + apiVersion + "/auth/{0}", referenceId), ingressCookie);
+        }
+
+        public BaseResponse GetLinkStatus(string referenceId)
+        {
+            if (string.IsNullOrEmpty(referenceId))
+            {
+                throw new ArgumentNullException("referenceId", "Reference ID cannot be empty.");
+            }
+
+            return this._apiClient.Get<BaseResponse>(string.Format("/api/" + apiVersion + "/auth/link/{0}", referenceId));
+        }
+
+        public BaseResponse GetLinkStatusStateful(string referenceId, string ingressCookie)
+        {
+            if (string.IsNullOrEmpty(referenceId))
+            {
+                throw new ArgumentNullException("referenceId", "Reference ID cannot be empty.");
+            }
+
+            return this._apiClient.GetStateful<BaseResponse>(string.Format("/api/" + apiVersion + "/auth/link/{0}", referenceId), ingressCookie);
+        }
+
         #endregion
 
         #endregion
 
         #region Private Methods
-        private BaseResponse Validate(BaseRequest request)
+        private BaseResponse Validate(BaseRequest request, ApiVersion apiVersion)
         {
-            return this._apiClient.Post<BaseResponse>("/api/v1/auth", request);
+            return this._apiClient.Post<BaseResponse>("/api/" + apiVersion.Value + "/auth", request);
         }
 
-        private SendOtpResponse SendOtp(BaseRequest request)
+        private SendOtpResponse SendOtp(BaseRequest request, ApiVersion apiVersion)
         {
-            return this._apiClient.Post<SendOtpResponse>("/api/v1/auth", request);
+            return this._apiClient.Post<SendOtpResponse>("/api/" + apiVersion.Value + "/auth", request);
         }
         #endregion
     }

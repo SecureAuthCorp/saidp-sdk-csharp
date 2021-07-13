@@ -1,10 +1,13 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 
 namespace SecureAuth.Sdk.Responses
 {
     [DataContract]
-    public class DfpJavascriptLinkResponse : BaseResponse
+    public class BiometricsJavascriptLinkResponse : BaseResponse
     {
         [DataMember(Name = "src")]
         public string Source { get; set; }

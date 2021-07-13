@@ -24,7 +24,7 @@ namespace SecureAuth.Sdk
         [DataMember(Name = "update_score", EmitDefaultValue = false)]
         public string UpdateScore { get; set; }
 
-        public override bool IsSucess()
+        public override bool IsSuccess()
         {
             return (this.StatusCode == HttpStatusCode.OK);
         }

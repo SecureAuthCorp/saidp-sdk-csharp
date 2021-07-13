@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SecureAuth.Sdk.Models;
+using System;
 
 namespace SecureAuth.Sdk
 {
@@ -17,15 +18,18 @@ namespace SecureAuth.Sdk
         /// </summary>
         /// <param name="request">Adaptive Auth Request object.</param>
         /// <returns>AdaptiveAuthResponse</returns>
-        public AdaptiveAuthResponse RunAdaptiveAuth(AdaptiveAuthRequest request)
+        public AdaptiveAuthResponse RunAdaptiveAuth(AdaptiveAuthRequest request, bool errorOnAccountStatus = false)
         {
+            
             // sanitize request
             if (string.IsNullOrEmpty(request.UserId))
             {
                 throw new ArgumentNullException("AdaptiveAuthRequest.UserId", "User ID cannot be empty.");
             }
 
-            return this._apiClient.Post<AdaptiveAuthResponse>("/api/v1/adaptauth", request);
+            string apiVersion = errorOnAccountStatus ? ApiVersion.V1.Value : ApiVersion.V2.Value;
+
+            return this._apiClient.Post<AdaptiveAuthResponse>("/api/" + apiVersion + "/adaptauth", request);
         }
     }
 }

@@ -11,6 +11,7 @@
         INumberProfileService NumberProfile { get; }
         IIpEvaluationService EvaluateIp { get; }
         IDeviceFingerprintService DeviceFingerprint { get; }
+        IBehavioralBiometricsService BehavioralBiometricsService { get; }
         IAccessHistoryService AccessHistory { get; }
         IAdaptiveAuthService AdaptiveAuth { get; }
         IGroupService GroupService { get; }

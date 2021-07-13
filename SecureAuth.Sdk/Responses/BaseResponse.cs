@@ -21,7 +21,10 @@ namespace SecureAuth.Sdk
         [IgnoreDataMember]
         public HttpStatusCode StatusCode { get; set; }
 
-        public virtual bool IsSucess()
+        [IgnoreDataMember]
+        public string IngressCookie { get; set; }
+
+        public virtual bool IsSuccess()
         {
             return ((this.StatusCode == HttpStatusCode.OK) && (this.Status == "valid"));
         }
